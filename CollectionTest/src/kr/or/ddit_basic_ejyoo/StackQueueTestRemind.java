@@ -9,6 +9,7 @@ public class StackQueueTestRemind {
 //		Queue => 선입선출(FIFO)의 자료구조
 //		Stack과 Queue는 LinkedList를 이용하여 사용할 수 있다.
 		
+//		stack을 구현하지 않아도 LinkedList만으로도 메서드 접근으로만 stack처럼 사용할 수 있다.
 		LinkedList<String> stack = new LinkedList<>();
 		
 //		Stack의 명령
@@ -34,7 +35,7 @@ public class StackQueueTestRemind {
 		System.out.println("====================================");
 		System.out.println();
 		
-		
+//		queue을 구현하지 않아도 LinkedList만으로도 메서드 접근으로만 queue처럼 사용할 수 있다.
 		LinkedList<String> queue = new LinkedList<>();
 //		queue의 명령
 //		1) 자료 입력 : offer(저장할 값)
