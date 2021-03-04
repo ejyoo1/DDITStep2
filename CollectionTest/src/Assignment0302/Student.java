@@ -7,9 +7,7 @@ import java.util.List;
 
 
 
-//2. Student클래스를 만든다.
 public class Student implements Comparable<Student>{
-//	1. 학번, 이름, 국어점수, 영어점수, 수학점수, 총점, 등수를 멤버로 갖는
 	private String stuNum;//학번
 	private String stuName;//이름
 	private int kor;//국어점수
@@ -22,7 +20,6 @@ public class Student implements Comparable<Student>{
 		
 	}
 	
-//	3. 생성자는 학번, 이름, 국어, 영어, 수학 점수만 매개변수로 받아서 처리한다.
 	Student(String stuNum, String stuName, int kor, int eng, int mat){
 		this.stuNum = stuNum;
 		this.stuName = stuName;
@@ -33,14 +30,6 @@ public class Student implements Comparable<Student>{
 		this.stuRank = 1;
 	}
 	
-	
-	
-	@Override
-	public String toString() {
-		return "Student [stuNum=" + stuNum + ", stuName=" + stuName + ", kor=" + kor + ", eng=" + eng + ", mat=" + mat
-				+ ", subSum=" + subSum + ", stuRank=" + stuRank + "]";
-	}
-
 	public String getStuNum() {
 		return stuNum;
 	}
@@ -97,8 +86,6 @@ public class Student implements Comparable<Student>{
 		this.stuRank = stuRank;
 	}
 
-//	5. List에 저장된 데이터들을 학번의 오름차순으로 정렬하여 출력하는 부분과
-//	학번 정렬기준은 Student클래스 자체에서 제공하도록 하고,
 	@Override
 	public int compareTo(Student stu) {
 		return this.getStuNum().compareTo(stu.getStuNum());
@@ -119,9 +106,7 @@ public class Student implements Comparable<Student>{
 	
 	
 	
-	
 	public static void main(String[] args) {
-//		4. 이 Student객체들은 List에 저장하여 관리한다.
 		List<Student> students = new ArrayList<Student>();
 		
 		students.add(new Student("201263346", "홍길동", 75,65,52));
@@ -142,7 +127,6 @@ public class Student implements Comparable<Student>{
 		
 		Collections.sort(students);
 		
-//		5. List에 저장된 데이터들을 학번의 오름차순으로 정렬하여 출력하는 부분과
 		System.out.println("학생목록 정렬 후 : ");
 		for(Student stu : students) {
 			System.out.println(stu);
@@ -157,9 +141,6 @@ public class Student implements Comparable<Student>{
 	}
 }
 
-//6. 총점의 역순으로 정렬하는 부분을 프로그램 하시오.
-//총점 정렬기준은 외부클래스에서 제공하도록 한다.
-//총점이 같으면 학번의 내림차순으로 정렬되도록 한다.
 class SortSubSum implements Comparator<Student>{
 
 	@Override
