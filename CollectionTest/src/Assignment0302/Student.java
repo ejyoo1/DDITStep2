@@ -145,6 +145,19 @@ class SortSubSum implements Comparator<Student>{
 
 	@Override
 	public int compare(Student stu1, Student stu2) {
+		/*
+		 내림차순 : -1 (음수)
+		 오름차순 : 1 (양수)
+		 변화없음 : 0
+		 
+		if(mem1.getNum() > mem2.getNum()) {
+			return -1;//규칙임 (음수)
+		}else if(mem1.getNum() == mem2.getNum()) {
+			return 0;//규칙임 ( 같음)
+		}else {
+			return 1;//규칙임 (양수)
+		}
+		*/
 		if(stu1.getSubSum() == stu2.getSubSum()) {
 			return stu1.getStuNum().compareTo(stu2.getStuNum()) * -1;
 		}else {
