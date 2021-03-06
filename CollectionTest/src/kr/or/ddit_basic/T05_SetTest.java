@@ -18,7 +18,10 @@ public class T05_SetTest {
 		hs1.add("BB");
 		hs1.add(1);
 		hs1.add(3);
-		
+		hs1.add(100);
+		hs1.add(41);
+		hs1.add(59);
+		hs1.add(28);
 		System.out.println("Set 데이터 : " + hs1);
 		System.out.println();
 		
