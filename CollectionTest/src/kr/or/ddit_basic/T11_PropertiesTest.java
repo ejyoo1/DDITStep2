@@ -19,9 +19,9 @@ public class T11_PropertiesTest {
 		 */
 		Properties prop = new Properties();
 		
-		prop.setProperty("name", "홍길동");
+		prop.setProperty("name", "kdhong");
 		prop.setProperty("tel", "010-1234-5678");
-		prop.setProperty("addr", "대전");
+		prop.setProperty("addr", "Daejeon");
 		
 		String name = prop.getProperty("name");
 		String tel = prop.getProperty("tel");
