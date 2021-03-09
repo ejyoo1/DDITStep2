@@ -55,7 +55,7 @@ public class T01_EnumTest {
 		System.out.println("myCity1의 oardinal : " + myCity1.ordinal());
 		System.out.println();
 		
-		System.out.println("myCity2 : " + myCity2.name());
+		System.out.println("myCity2 : " + myCity2.name());//myCity2.toString()==myCity2.name()
 		System.out.println("myCity2의 oardinal : " + myCity2.ordinal());
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		
@@ -80,10 +80,11 @@ public class T01_EnumTest {
 		
 		System.out.println(city == City.대전);
 		System.out.println(city == City.대구);
+//		System.out.println(city == City2.대구); //City2와 비교하면 컴파일에러가발생함. 완전 타입이 다른데 비교할수 없도록 컴파일러가 제어
 
-		System.out.println("대구 => " + city.compareTo(City.대구));
-		System.out.println("대구 => " + city.compareTo(City.서울));
-		System.out.println("대구 => " + city.compareTo(City.대전));
+		System.out.println("대구 => " + city.compareTo(City.대구));//0 대구-대구 = 0
+		System.out.println("대구 => " + city.compareTo(City.서울));//2 대구-서울 = 2
+		System.out.println("대구 => " + city.compareTo(City.대전));//-2 대구-대전 = -2
 		
 		
 	}
