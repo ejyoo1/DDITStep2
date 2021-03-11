@@ -43,13 +43,19 @@ public class T06_WildcardTest {
 class Juicer {
 //	static void makeJuice(FruitBox<Fruit> box) {//하드코딩
 //	Fruitbox 하위의 appleBox도 사용할 수 있는 메서드 생성
-	static <T> void makeJuice(FruitBox<T> box) {
+//	Juicer.makeJuice(appleBox);로 인하여 제너릭 타입이 applyBox로 결정
+//	static <T extends Fruit> void makeJuice(FruitBox<T> box) {
+//	와일드 카드 사용하여 변경 : 제너릭 메서드를 사용하지 않고 파라미터에 와일드카드를 사용하여 표현할 수 있다.
+	static void makeJuice(FruitBox<? extends Fruit> box) {
+//		static void makeJuice(FruitBox<?> box) { 이렇게 사용하는경우 for(Fruit f : box.getFruitList()) {에서 에러가 난다, 타입을 모르는데 비교를 하고 있다고 컴파일러가 아려줌.
 		String fruitListStr = "";//과일목록
 		
 		int cnt = 0;
 //		for(Fruit f : box.getFruitList()) {
 //		Fruitbox 하위의 appleBox도 사용할 수 있게 for 문 수정
-		for(T f : box.getFruitList()) {
+//		for(T f : box.getFruitList()) {
+//		와일드 카드 사용 시
+		for(Fruit f : box.getFruitList()) {
 			if(cnt == 0) {
 				fruitListStr += f;
 			} else {
