@@ -1,14 +1,13 @@
 package kr.or.ddit.basic;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import kr.or.ddit.util.JDBCUtil;
+import kr.or.ddit.util.JDBCUtil3;
 
 /*
 	회원정보를 관리하는 프로그램을 작성하는데 
@@ -38,8 +37,10 @@ create table mymember(
 );
 
 */
-public class T02_MemberInfoTest {
 
+
+
+public class T02_MemberInfoTest {
 	private Connection conn;
 	private Statement stmt;
 	private PreparedStatement pstmt;
@@ -47,6 +48,12 @@ public class T02_MemberInfoTest {
 
 	private Scanner scan = new Scanner(System.in);
 
+	
+	public static void main(String[] args) {
+		new T02_MemberInfoTest().start();
+	}
+	
+	
 	/**
 	 * 메뉴를 출력하는 메서드
 	 */
@@ -117,7 +124,7 @@ public class T02_MemberInfoTest {
 		// 정상적인 회원 ID를 넣은경우 아래의 코드 실행
 
 		try {
-			conn = JDBCUtil.getConnection();
+			conn = JDBCUtil3.getConnection();
 
 			// Ststement를 사용하면 쿼리문 안에 변수가 ㅇ직접적으로 들어가기 때문에 : SQL Injection 발생할 수 있으며
 			// 해커가 의도적으로 잘못된 데이터를 삽입하여 쿼리를 무력화 시킬 수 있음.
@@ -150,7 +157,7 @@ public class T02_MemberInfoTest {
 			ex.printStackTrace();
 			System.out.println("회원 삭제에 실패하였습니다.");
 		} finally {
-			JDBCUtil.disConnect(conn, stmt, pstmt, rs);
+			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
 		}
 	}
 
@@ -188,7 +195,7 @@ public class T02_MemberInfoTest {
 		String memAddr = scan.nextLine();
 
 		try {
-			conn = JDBCUtil.getConnection();
+			conn = JDBCUtil3.getConnection();
 
 			String sql = " update mymember set " + "mem_name = ?, " + "mem_tel = ?, " + "mem_addr = ? "
 					+ "where mem_id = ?";
@@ -210,7 +217,7 @@ public class T02_MemberInfoTest {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
-			JDBCUtil.disConnect(conn, stmt, pstmt, rs);
+			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
 		}
 	}
 
@@ -224,7 +231,7 @@ public class T02_MemberInfoTest {
 		System.out.println("----------------------------------------");
 
 		try {
-			conn = JDBCUtil.getConnection();
+			conn = JDBCUtil3.getConnection();
 
 			// Statement를 위한 쿼리
 			String sql = "select * from mymember";
@@ -246,10 +253,11 @@ public class T02_MemberInfoTest {
 		} catch (SQLException ex) {// 예외발생할 것이 없으면 컴파일러가 빨간줄 표시로 아려줌
 			ex.printStackTrace();
 		} finally {
-			JDBCUtil.disConnect(conn, stmt, pstmt, rs);
+			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
 		}
 
 	}
+	
 
 	/**
 	 * 회원을 추가하기 위한 메서드
@@ -283,7 +291,7 @@ public class T02_MemberInfoTest {
 		String memAddr = scan.nextLine();
 
 		try {
-			conn = JDBCUtil.getConnection();
+			conn = JDBCUtil3.getConnection();
 
 			String sql = " insert into mymember (mem_id, mem_name, mem_tel, mem_addr) " + " values (?, ?, ?, ?)";
 
@@ -304,7 +312,7 @@ public class T02_MemberInfoTest {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
-			JDBCUtil.disConnect(conn, stmt, pstmt, rs);
+			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
 		}
 
 	}
@@ -320,7 +328,7 @@ public class T02_MemberInfoTest {
 		boolean chk = false;
 
 		try {
-			conn = JDBCUtil.getConnection();
+			conn = JDBCUtil3.getConnection();
 
 			// PreparedStatement를 위한 쿼리
 			String sql = "select count(*) cnt from mymember where mem_id = ? ";
@@ -343,10 +351,12 @@ public class T02_MemberInfoTest {
 		} catch (SQLException ex) {// 예외발생할 것이 없으면 컴파일러가 빨간줄 표시로 아려줌
 			ex.printStackTrace();
 		} finally {
-			JDBCUtil.disConnect(conn, stmt, pstmt, rs);
+			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
 		}
 
 		return chk;
 	}
+	
+	
 
 }
