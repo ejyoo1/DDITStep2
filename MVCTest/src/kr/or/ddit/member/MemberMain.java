@@ -1,13 +1,11 @@
-package kr.or.ddit.basic;
+package kr.or.ddit.member;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
 import java.util.Scanner;
 
-import kr.or.ddit.util.JDBCUtil3;
+import kr.or.ddit.member.service.IMemberService;
+import kr.or.ddit.member.service.MemberServiceImpl;
+import kr.or.ddit.member.vo.MemberVO;
 
 /*
 	회원정보를 관리하는 프로그램을 작성하는데 
@@ -40,17 +38,20 @@ create table mymember(
 
 
 
-public class T02_MemberInfoTest {
-	private Connection conn;
-	private Statement stmt;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
+public class MemberMain {
+	
+//	서비스 객체 멤버변수 선언
+	private IMemberService memService;
+	
+	public MemberMain() {
+		memService = new MemberServiceImpl();
+	}
 
 	private Scanner scan = new Scanner(System.in);
 
 	
 	public static void main(String[] args) {
-		new T02_MemberInfoTest().start();
+		new MemberMain().start();
 	}
 	
 	
@@ -113,7 +114,7 @@ public class T02_MemberInfoTest {
 			System.out.print("회원 ID >> ");
 			memId = scan.next();
 
-			chk = checkMember(memId);
+			chk = memService.checkMember(memId);
 
 			if (chk == false) {
 				System.out.println("회원ID가  " + memId + "인 회원이 없습니다.");
@@ -122,42 +123,12 @@ public class T02_MemberInfoTest {
 		} while (chk == false);
 
 		// 정상적인 회원 ID를 넣은경우 아래의 코드 실행
-
-		try {
-			conn = JDBCUtil3.getConnection();
-
-			// Ststement를 사용하면 쿼리문 안에 변수가 ㅇ직접적으로 들어가기 때문에 : SQL Injection 발생할 수 있으며
-			// 해커가 의도적으로 잘못된 데이터를 삽입하여 쿼리를 무력화 시킬 수 있음.
-			/*
-			 * select * from member where mem_id = 'b001' and mem_pass = '1004'; 라는 쿼리가 있을
-			 * 때, 해커가 의도적으로 select * from member where mem_id = 'b001' and mem_pass = '' 일 때
-			 * b001대신에 해커가 'or 1=1 -- 을 의도적으로 넣는다 . 이때, 들어가는 순간 true가 되며 뒤에있는 쿼리가 주석처리 되므로
-			 * 모든 쿼리 결과를 불러오게 되는것이다. 그래서 쿼리가 무력화 된다.
-			 */
-
-			/*
-			 * prepareStatement는 삽입하는 ?에 들어갈 value만 필요하기 때문에 이미 sql ?를 갖고있는 상태로 오라클에서 내부적으로
-			 * 컴파일이 되어있으며, 실행할때 ?값이 넣어진다. 상수로만 판단하기 때무에 분석하고 해석하는 단계가 없다. ?를 대체하는 값으로만
-			 * 생각하기때문에 아무런 문제가 없다. sqlInjection 발생할 수 없다. statement는 실행할떄 sql을 컴파일 한다.
-			 */
-			String sql = " delete from mymember where mem_id = ? ";
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memId);
-
-			int cnt = pstmt.executeUpdate();
-
-			if (cnt > 0) {
-				System.out.println(memId + "회원 정보 삭제 작업 성공");
-			} else {
-				System.out.println(memId + "회원 정보 삭제 실패!!!");
-			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			System.out.println("회원 삭제에 실패하였습니다.");
-		} finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
+		int cnt = memService.deleteMember(memId);
+		
+		if (cnt > 0) {
+			System.out.println(memId + "회원 정보 삭제 작업 성공");
+		} else {
+			System.out.println(memId + "회원 정보 삭제 실패!!!");
 		}
 	}
 
@@ -174,7 +145,7 @@ public class T02_MemberInfoTest {
 			System.out.print("회원 ID >> ");
 			memId = scan.next();
 
-			chk = checkMember(memId);
+			chk = memService.checkMember(memId);
 
 			if (chk == false) {
 				System.out.println("회원ID가  " + memId + "인 회원이 없습니다.");
@@ -193,31 +164,19 @@ public class T02_MemberInfoTest {
 		scan.nextLine(); // 입력버퍼 지우기
 		System.out.print("회원 주소 >> ");
 		String memAddr = scan.nextLine();
-
-		try {
-			conn = JDBCUtil3.getConnection();
-
-			String sql = " update mymember set " + "mem_name = ?, " + "mem_tel = ?, " + "mem_addr = ? "
-					+ "where mem_id = ?";
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memName);
-			pstmt.setString(2, memTel);
-			pstmt.setString(3, memAddr);
-			pstmt.setString(4, memId);
-
-			int cnt = pstmt.executeUpdate();
-
-			if (cnt > 0) {
-				System.out.println(memId + "회원 정보 수정 작업 성공");
-			} else {
-				System.out.println(memId + "회원 정보 수정 실패!!!");
-			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
+		
+		MemberVO mv = new MemberVO();
+		mv.setMemId(memId);
+		mv.setMemName(memName);
+		mv.setMemTel(memTel);
+		mv.setMemAddr(memAddr);
+		
+		int cnt = memService.updateMember(mv);
+		
+		if (cnt > 0) {
+			System.out.println(memId + "회원 정보 수정 작업 성공");
+		} else {
+			System.out.println(memId + "회원 정보 수정 실패!!!");
 		}
 	}
 
@@ -229,32 +188,16 @@ public class T02_MemberInfoTest {
 		System.out.println("----------------------------------------");
 		System.out.println("ID\t이름\t전화번호\t주소");
 		System.out.println("----------------------------------------");
-
-		try {
-			conn = JDBCUtil3.getConnection();
-
-			// Statement를 위한 쿼리
-			String sql = "select * from mymember";
-
-			stmt = conn.createStatement();
-
-			rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				String memId = rs.getString("mem_id");
-				String memName = rs.getString("mem_name");
-				String memTel = rs.getString("mem_tel");
-				String memAddr = rs.getString("mem_addr");
-				System.out.println(memId + "\t" + memName + "\t" + memTel + "\t" + memAddr);
-			}
-			System.out.println("----------------------------------------");
-			System.out.println("출력작업 끝...");
-
-		} catch (SQLException ex) {// 예외발생할 것이 없으면 컴파일러가 빨간줄 표시로 아려줌
-			ex.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
+		
+		List<MemberVO> memList = memService.getAllMemberList();
+		
+		for(MemberVO mv : memList) {
+			System.out.println(mv.getMemId() + "\t" + mv.getMemName() + "\t" + mv.getMemTel() + "\t" + mv.getMemAddr());
+			
 		}
+		
+		System.out.println("----------------------------------------");
+		System.out.println("출력작업 끝...");
 
 	}
 	
@@ -272,7 +215,7 @@ public class T02_MemberInfoTest {
 			System.out.print("회원 ID >> ");
 			memId = scan.next();
 
-			chk = checkMember(memId);
+			chk = memService.checkMember(memId);
 
 			if (chk == true) {
 				System.out.println("회원ID가  " + memId + "인 회원이 이미 존재합니다.");
@@ -289,74 +232,20 @@ public class T02_MemberInfoTest {
 		scan.nextLine(); // 입력버퍼 지우기
 		System.out.print("회원 주소 >> ");
 		String memAddr = scan.nextLine();
+		
+		MemberVO mv = new MemberVO();
+		mv.setMemId(memId);
+		mv.setMemName(memName);
+		mv.setMemTel(memTel);
+		mv.setMemAddr(memAddr);
 
-		try {
-			conn = JDBCUtil3.getConnection();
-
-			String sql = " insert into mymember (mem_id, mem_name, mem_tel, mem_addr) " + " values (?, ?, ?, ?)";
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memId);
-			pstmt.setString(2, memName);
-			pstmt.setString(3, memTel);
-			pstmt.setString(4, memAddr);
-
-			int cnt = pstmt.executeUpdate();
-
-			if (cnt > 0) {
-				System.out.println(memId + "회원 추가 작업 성공");
-			} else {
-				System.out.println(memId + "회원 추가 작업 실패!!!");
-			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
+		int cnt = memService.insertMember(mv);
+		
+		if (cnt > 0) {
+			System.out.println(memId + "회원 추가 작업 성공");
+		} else {
+			System.out.println(memId + "회원 추가 작업 실패!!!");
 		}
 
 	}
-
-	/**
-	 * 회원 id를 이용하여 회원이 있는지 알려주는 메서드
-	 * 
-	 * @param memId
-	 *            : 사용자가 입력한 멤버 아이디
-	 * @return 존재하면 true, 없으면 false
-	 */
-	private boolean checkMember(String memId) {
-		boolean chk = false;
-
-		try {
-			conn = JDBCUtil3.getConnection();
-
-			// PreparedStatement를 위한 쿼리
-			String sql = "select count(*) cnt from mymember where mem_id = ? ";
-
-			pstmt = conn.prepareStatement(sql);
-			// 스트링은 ''이 필요하기에 메서드를 잘 써야 함.
-			pstmt.setString(1, memId);
-
-			rs = pstmt.executeQuery();
-
-			int cnt = 0;
-			while (rs.next()) { // if(rs.next()){와 같음(결과가 1건이기 때문)
-				cnt = rs.getInt("cnt");
-			}
-
-			if (cnt > 0) {
-				chk = true;
-			}
-
-		} catch (SQLException ex) {// 예외발생할 것이 없으면 컴파일러가 빨간줄 표시로 아려줌
-			ex.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
-		}
-
-		return chk;
-	}
-	
-	
-
 }
