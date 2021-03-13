@@ -24,15 +24,12 @@ public interface IMemberService {
 	 * 주어진 회원 ID가 존재하는지 여부를 알아내는 메서드
 	 * @param memId 회원 ID
 	 * @return 해당 회원 ID가 존재하면 true, 존재하지 않으면 false
-	 * @throws SQLException JDBC관련 예외객체 발생
 	 */
 	public boolean checkMember(String memId);
 	
 	/**
 	 * 회원정보 전체 목록을 가져오는 메서드
-	 * @param conn 커넥션 객체
 	 * @return 회원정보를 담고있는 List 객체
-	 * @throws SQLException JDBC관련 예외객체 발생
 	 */
 	public List<MemberVO> getAllMemberList();
 	
