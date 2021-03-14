@@ -110,4 +110,34 @@ public class BoardDaoImpl implements IBoardDao{
 		return cnt;
 	}
 
+	@Override
+	public List<BoardVO> boardSerch(Connection conn, BoardVO bv) throws SQLException {
+		List<BoardVO> boardList = new ArrayList<BoardVO>();
+		String sql = " SELECT * FROM JDBC_BOARD \"\n"
+				+ "					+ \"WHERE BOARD_TITLE LIKE '%'||?||'%' AND \"\n"
+				+ "					+ \"BOARD_WRITER = ? AND \"\n"
+				+ "					+ \"BOARD_CONTENT LIKE '%'||?||'%' ";
+		
+		pstmt = conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+			int boardNo = rs.getInt("BOARD_NO");
+			String boardTitle = rs.getString("BOARD_TITLE");
+			String boardWriter = rs.getString("BOARD_WRITER");
+			String boardDate = rs.getString("BOARD_DATE");
+			String boardContent = rs.getString("BOARD_CONTENT");
+			
+			bv.setBoardNo(boardNo);
+			bv.setBoardTitle(boardTitle);
+			bv.setBoardWriter(boardWriter);
+			bv.setBoardDate(boardDate);
+			bv.setBoardContent(boardContent);
+			
+			boardList.add(bv);
+		}
+		
+		return boardList;
+	}
+
 }

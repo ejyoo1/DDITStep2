@@ -34,7 +34,7 @@ public interface IBoardDao {
 	/**
 	 * DB의 jdbc_board 테이블의  전체 레코드를 가져와서 List에 담아 반환하는 메서드
 	 * @param conn 커넥션 객체
-	 * @return 회원정보를 담고있는 List 객체
+	 * @return 게시글 정보를 담고있는 List 객체
 	 * @throws SQLException JDBC관련 예외객체 발생
 	 */
 	public List<BoardVO> getAllBoardList(Connection conn) throws SQLException;
@@ -42,7 +42,7 @@ public interface IBoardDao {
 	/**
 	 * 하나의 게시글 정보를 이용하여 DB를 업데이트 하는 메서드
 	 * @param conn 커넥션 객체
-	 * @param bv 멤버정보 객체
+	 * @param bv 게시글 정보 객체
 	 * @return 작업성공 : 1, 작업 실패 : 0
 	 * @throws SQLException JDBC관련 예외객체 발생
 	 */
@@ -56,5 +56,14 @@ public interface IBoardDao {
 	 * @throws SQLException JDBC관련 예외객체 발생
 	 */
 	public int deleteBoard(Connection conn, String boardNo) throws SQLException;
+	
+	/**
+	 * 검색할 게시글 정보를 매개변수로 받아서 그 게시글을 검색하는 메서드 
+	 * @param conn 커넥션 객체 
+	 * @param bv 게시글 정보 객체 
+	 * @return 게시글 정보를 담고있는 객체 
+	 * @throws SQLException JDBC 관련 예외객체 발생 
+	 */
+	public List<BoardVO> boardSerch(Connection conn, BoardVO bv) throws SQLException;
 
 }

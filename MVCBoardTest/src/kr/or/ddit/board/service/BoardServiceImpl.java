@@ -58,7 +58,6 @@ public class BoardServiceImpl implements IBoardService{
 		conn = JDBCUtil3.getConnection();
 			boardList = boardDao.getAllBoardList(conn);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JDBCUtil3.disConnect(conn, null, null, null);
@@ -94,8 +93,22 @@ public class BoardServiceImpl implements IBoardService{
 		} finally {
 			JDBCUtil3.disConnect(conn, null, null, null);
 		}
-		return 0;
+		return cnt;
 	}
-	
-	
+
+	@Override
+	public List<BoardVO> boardSerch(BoardVO bv) {
+		List<BoardVO> boardList = new ArrayList<>();
+		
+		try {
+			conn = JDBCUtil3.getConnection();
+			boardList = boardDao.boardSerch(conn, bv);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil3.disConnect(conn, null, null, null);
+		}
+		return boardList;
+	}
+
 }

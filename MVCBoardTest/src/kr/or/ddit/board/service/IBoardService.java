@@ -44,4 +44,11 @@ public interface IBoardService {
 	 * @return 작업성공 : 1, 작업 실패 : 0
 	 */
 	public int deleteBoard(String boardNo);
+	
+	/**
+	 * 게시글을 검색하는 메서드 
+	 * @param bv 게시글정보 객체
+	 * @return 작업성공 : 1, 작업 실패 : 0
+	 */
+	public List<BoardVO> boardSerch(BoardVO bv);
 }

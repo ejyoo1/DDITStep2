@@ -54,7 +54,38 @@ public class BoardMain {
 	 * 게시글 검색
 	 */
 	private void displaySearch() {
-		// TODO Auto-generated method stub
+		boolean chk = false;
+		
+		System.out.println("검색할 게시판의 제목을 입력하세요.");
+		System.out.print("검색할 글자(일부만 입력해도 됨) > ");
+		String boardTitle = ScanUtil.nextLine();
+		System.out.println("검색할 작성자(정확히 입력할 것) > ");
+		String boardWriter = ScanUtil.nextLine();
+		System.out.println("검색할 내용(일부만 입력해도 됨) > ");
+		String boardContent = ScanUtil.nextLine();
+		BoardVO bv = new BoardVO();
+		bv.setBoardTitle(boardTitle);
+		bv.setBoardWriter(boardWriter);
+		bv.setBoardContent(boardContent);
+		
+		System.out.println("검색 결과 확인합니다.");
+		System.out.println("============================================");
+		System.out.println("번호\t제목\t작성자\t작성일\t내용");
+		System.out.println("============================================");
+		
+		List<BoardVO> boardList = boardService.boardSerch(bv);
+		
+		for(BoardVO bv1 : boardList) {
+			System.out.println(
+					bv1.getBoardNo() 		+ "\t" +
+					bv1.getBoardTitle() 		+ "\t" +
+					bv1.getBoardWriter() 	+ "\t" +
+					bv1.getBoardDate() 		+ "\t" +
+					bv1.getBoardContent()
+					);
+		}
+		System.out.println("============================================");
+		System.out.println("출력작업 끝");
 		
 	}
 
@@ -152,30 +183,17 @@ public class BoardMain {
 		
 		List<BoardVO> boardList = boardService.getAllBoardList();
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		for(BoardVO bv : boardList) {
+			System.out.println(
+					bv.getBoardNo() 		+ "\t" +
+					bv.getBoardTitle() 		+ "\t" +
+					bv.getBoardWriter() 	+ "\t" +
+					bv.getBoardDate() 		+ "\t" +
+					bv.getBoardContent()
+					);
+		}
+		System.out.println("============================================");
+		System.out.println("출력작업 끝");
 	}
 
 	/**
