@@ -54,8 +54,6 @@ public class BoardMain {
 	 * 게시글 검색
 	 */
 	private void displaySearch() {
-		boolean chk = false;
-		
 		System.out.println("검색할 게시판의 제목을 입력하세요.");
 		System.out.print("검색할 글자(일부만 입력해도 됨) > ");
 		String boardTitle = ScanUtil.nextLine();
@@ -169,6 +167,19 @@ public class BoardMain {
 		String boardWriter = ScanUtil.nextLine();
 		System.out.println("작성 내용 > ");
 		String boardContent = ScanUtil.nextLine();
+		
+		BoardVO bv = new BoardVO();
+		bv.setBoardTitle(boardTitle);
+		bv.setBoardWriter(boardWriter);
+		bv.setBoardContent(boardContent);
+		
+		int cnt = boardService.insertBoard(bv);
+		
+		if(cnt > 0) {
+			System.out.println("게시글 작성 완료");
+		}else {
+			System.out.println("게시글 작성 실패!!!");
+		}
 		
 	}
 	
