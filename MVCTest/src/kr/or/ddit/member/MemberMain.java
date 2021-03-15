@@ -66,7 +66,9 @@ public class MemberMain {
 		System.out.println("  2. 자료 삭제");
 		System.out.println("  3. 자료 수정");
 		System.out.println("  4. 전체 자료 출력");
-		System.out.println("  5. 작업 끝.");
+		System.out.println("  5. 자료검색.");
+		System.out.println("  6. 작업끝.");
+		
 		System.out.println("----------------------");
 		System.out.print("원하는 작업 선택 >> ");
 	}
@@ -92,7 +94,10 @@ public class MemberMain {
 			case 4: // 전체 자료 출력
 				displayAll();
 				break;
-			case 5: // 작업 끝
+			case 5: //자료 검색
+				searchMember();
+				break;
+			case 6: // 작업 끝
 				System.out.println("작업을 마칩니다.");
 				break;
 			default:
@@ -100,6 +105,52 @@ public class MemberMain {
 			}
 		} while (choice != 5);
 	}
+
+	/**
+	 * 회원을 검색하는 메서드
+	 */
+	private void searchMember() {
+		// 검색할 회원ID, 회원이름, 전화번호, 주소등을 입력하면
+		// 입력한 정보만 사용하여 검색하는 기능을 구현하시오.
+		// 주소는 입력한 값이 포함만 되어도 검색되도록 한다.
+		// 입력을 하지 않을 자료는 엔터키로 다음 입력으로 넘긴다.
+		scan.nextLine(); // 입력버퍼 지우기
+		System.out.println();
+		System.out.println("검색할 정보를 입력하세요.");
+		System.out.print("회원ID >> ");
+		String memId = scan.nextLine().trim(); //공백제거
+
+		System.out.print("회원 이름 >> ");
+		String memName = scan.nextLine().trim(); //공백제거
+
+		System.out.print("회원 전화번호 >> ");
+		String memTel = scan.nextLine().trim(); //공백제거
+
+		System.out.print("회원 주소 >> ");
+		String memAddr = scan.nextLine().trim(); //공백제거
+
+		MemberVO mv = new MemberVO();
+		mv.setMemId(memId);
+		mv.setMemName(memName);
+		mv.setMemTel(memTel);
+		mv.setMemAddr(memAddr);
+
+		// 입력한 정보로 검색한 내용을 출력하는 부분
+		List<MemberVO> memList = memService.getSearchMember (mv);
+
+		System.out.println();
+		System.out.println("----------------------------------------");
+		System.out.println(" ID\t이 름\t전화번호\t주 소");
+		System.out.println("----------------------------------------");
+
+		for(MemberVO mv2: memList) {
+		System.out.println(mv2.getMemId() + "\t" + mv2.getMemName() + "\t"
+		+ mv2.getMemTel() + "\t" + mv2.getMemAddr());
+		}
+		System.out.println("---------------------------------------------------");
+		System.out.println("출력 작업 끝!");
+		}
+
 
 	/**
 	 * 회원 정보를 삭제하는 메서드(입력받은 회원ID를 이용하여 삭제한다.)

@@ -100,9 +100,26 @@ public class MemberServiceImpl implements IMemberService {
 			cnt = memDao.deleteMember(conn, memId);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			JDBCUtil3.disConnect(conn, null, null, null);
 		}
 		
 		return cnt;
+	}
+
+	@Override
+	public List<MemberVO> getSearchMember(MemberVO mv) {
+		List<MemberVO> memList = new ArrayList<>();
+		
+		try {
+			conn = JDBCUtil3.getConnection();
+			memList = memDao.getSearchMember(conn, mv);
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+		}finally {
+			JDBCUtil3.disConnect(conn, null, null, null);
+		}
+		return memList;
 	}
 
 }

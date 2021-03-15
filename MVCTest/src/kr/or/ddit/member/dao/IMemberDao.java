@@ -56,4 +56,13 @@ public interface IMemberDao {
 	 * @throws SQLException JDBC관련 예외객체 발생
 	 */
 	public int deleteMember(Connection conn, String memId) throws SQLException;
+	
+	/**
+	 * MemberVO 객체에 담긴 자료를 이용하여 회원을 검색하는 메서드
+	 * @param conn 커넥션 객체
+	 * @param mv 검색할 자료가 들어있는 MemberVO 객체
+	 * @return 검색된 결과를 담은 List
+	 * @throws SQLException
+	 */
+	public List<MemberVO> getSearchMember(Connection conn, MemberVO mv) throws SQLException;
 }
