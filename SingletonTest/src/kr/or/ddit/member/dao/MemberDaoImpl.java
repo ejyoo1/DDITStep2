@@ -15,6 +15,21 @@ public class MemberDaoImpl implements IMemberDao {
 	private Statement stmt;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	
+//	private static MemberDaoImpl memDao; 
+	private static IMemberDao memDao;//인터페이스로 사용함.(나중에 유지보수 쉽게하기 위해서)
+	
+	private MemberDaoImpl() {
+		
+	}
+	
+	public static IMemberDao getInstance() {
+		if(memDao == null) {
+			memDao = new MemberDaoImpl();
+		}
+		
+		return memDao;
+	}
 
 	@Override
 	public int insertMember(Connection conn, MemberVO mv) throws SQLException {

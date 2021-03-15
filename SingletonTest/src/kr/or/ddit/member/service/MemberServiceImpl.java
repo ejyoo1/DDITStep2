@@ -18,8 +18,17 @@ public class MemberServiceImpl implements IMemberService {
 //	커넥션 객체 담기위한 메서드 객체 선언
 	private Connection conn;
 	
-	public MemberServiceImpl() {
-		memDao = new MemberDaoImpl();
+	private static IMemberService memService;
+	
+	private MemberServiceImpl() {
+		memDao = MemberDaoImpl.getInstance();
+	}
+	
+	public static IMemberService getInstance() {
+		if(memService == null) {
+			memService = new MemberServiceImpl();
+		}
+		return memService;
 	}
 
 	@Override
