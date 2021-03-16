@@ -26,13 +26,13 @@
  -->
  <!-- id 지정 , 객체 파라미터의 타입 지정. 이제 객체를 참고하도록 함. (getter를 추출해서 뽑아낼 수 있음.)-->
  <!-- ##안에 property이름을 명시하면 idatis가 memId를 가지고 유추해서 getter에 접근한다. getMemId() -->
- 	<insert id="insertMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+ 	<insert id="insertMember" parameterClass="memVO">
  		 insert into mymember  
  		 (mem_id, mem_name, mem_tel, mem_addr) 
  		 values (#memId#,#memName#,#memTel#,#memAddr#) 
  	</insert>
  	
- 	<update id="updateMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+ 	<update id="updateMember" parameterClass="memVO">
  		 update mymember 
  		 set mem_name = #memName#
  		 , mem_tel = #memTel#
@@ -72,7 +72,7 @@
  	-->
  	
  	<!-- 방법2) resultMap방식 이용 (자주 사용)-->
- 	<resultMap class="kr.or.ddit.member.vo.MemberVO" id="memMap">
+ 	<resultMap class="memVO" id="memMap">
  		<!-- 자바 객체의 memId는 DB에서 mem_id와 동일하다. (매핑작업) = 이런 작업으로 인해 ibatis를 데이터 맵퍼라고 한다. -->
  		<result property="memId" column="mem_id"/>
  		<result property="memName" column="mem_name"/>
