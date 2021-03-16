@@ -41,7 +41,7 @@ create table mymember(
 public class MemberMain {
 	
 //	서비스 객체 멤버변수 선언
-	private IMemberService memService;
+	private static IMemberService memService;
 	
 	public MemberMain() {
 		memService = MemberServiceImpl.getInstance();
