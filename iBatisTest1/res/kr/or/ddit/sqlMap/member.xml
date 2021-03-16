@@ -5,7 +5,7 @@
 <!-- ibatis가 실행할 쿼리를 작성하는 부분임 (필요한 정보들을 설정해야 ibatis에서 수행함) -->
 <!-- sqlMap : root 태그 -->
 <!-- namespace : SqlMapConfig.xml의 Setting 내 useStatementNamespaces="true" : namespace를 쓰겠다. -->
-<sqlMap namespace="memberTest">
+<sqlMap namespace="member">
 <!-- 
 	이 영역에 sql문에 맞는 태그를 사용하여 SQL문을 기술한다.
 	
@@ -86,10 +86,15 @@
  		from mymember
  	</select>
  	
- 
+ 	<!-- 
  	<select id="getMember" parameterClass="String" resultMap="memMap">
  		select * from mymember where mem_id = #memId#
  	</select>
+	 -->
+	<select id="getMember" parameterClass="String" resultClass="int">
+ 		select count(*) as cnt from mymember where mem_id = #memId#
+ 	</select>
+ 	
  	
  	
  	
