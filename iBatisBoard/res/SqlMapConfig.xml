@@ -29,7 +29,7 @@
 	 	2) alias : 경로를 설정한 type 에 대한 별명을 지어줌.
 	  -->
 	  <!-- type 경로를 사용하는 곳은 alias를 사용하여 간단하게 사용 가능. -->
-	  <typeAlias alias="memVO" type="kr.or.ddit.member.vo.MemverVO" />
+	  <typeAlias alias="boardVO" type="kr.or.ddit.board.vo.BoardVO" />
 	  
 	  <!-- DB 접속 정보 설정 영역(DB접속정보, 커넥션 개수) -->
 	  <transactionManager type="JDBC">

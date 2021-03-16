@@ -1,66 +1,91 @@
 package kr.or.ddit.board.service;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ibatis.sqlmap.client.SqlMapClient;
+
 import kr.or.ddit.board.dao.BoardDaoImpl;
 import kr.or.ddit.board.dao.IBoardDao;
 import kr.or.ddit.board.vo.BoardVO;
-import kr.or.ddit.util.JDBCUtil3;
+import kr.or.ddit.util.SqlMapClientUtil;
 
 public class BoardServiceImpl implements IBoardService{
 	private IBoardDao boardDao;
-	private Connection conn;
+	private SqlMapClient smc;
 	
-	public BoardServiceImpl() {
-		boardDao = new BoardDaoImpl();
+//	싱글톤 패턴 적용
+	private static IBoardService boardService;
+	
+	private BoardServiceImpl() {
+		boardDao = BoardDaoImpl.getInstance();
+		smc = SqlMapClientUtil.getInstance();
+	}
+	
+	public static IBoardService getInstance() {
+		if(boardService == null) {
+			boardService = new BoardServiceImpl();
+		}
+		return boardService;
 	}
 
 	@Override
 	public int insertBoard(BoardVO bv) {
 		int cnt = 0;
 		
-		try {
-		conn = JDBCUtil3.getConnection();
-		
-			cnt = boardDao.insertBoard(conn, bv);
+		try { //Dao에서 예외처리를 넘겼으므로 Service에서 예외처리를 해야 함.
+			cnt = boardDao.insertBoard(smc, bv);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, null, null, null);
 		}
 		return cnt;
+		
+/****************************************************
+		 트랜잭션 코드
+		int cnt = 0;
+		
+		try {
+//			트랜잭션 관리 시작 코드
+			smc.startTransaction();
+			cnt = memDao.insertMember(smc, mv);
+//			DB에서 commit 하겠다.
+			smc.commitTransaction();
+		} catch (SQLException e) {//ibatis에서 처리하더라도 SQL작업에 대한 예외처리는 발생가능성이 있음.
+//			Sql문을 실행하여 예외가 발생한 경우 commit 코드가 진행되지 않고 바로 catch문을 들어오게됨.
+			smc.endTransaction(); //이것을 사용하여 트랜잭션을 종료하면 롤백과 같은 효과를 볼 수있음.
+			try {
+				smc.endTransaction();//트랜잭션관련 예외처리 필요함.
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+		}//ibatis에서 리소스 관리도 자동으로 해주기 때문에 자원 반납은 하지 않음.
+		return cnt;
+****************************************************/
 	}
 
 	@Override
-	public boolean checkBoard(String boardNo) {
+	public boolean getCheckBoard(String boardNo) {
 		boolean chk = false;
 		
 		try {
-		conn = JDBCUtil3.getConnection();
-			chk = boardDao.checkBoard(conn, boardNo);
+			chk = boardDao.getCheckBoard(smc, boardNo);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, null, null, null);
 		}
 		return chk;
 	}
 
 	@Override
-	public List<BoardVO> getAllBoardList() {
+	public List<BoardVO> getBoardAll() {
 		List<BoardVO> boardList = new ArrayList<>();
 		
 		try {
-		conn = JDBCUtil3.getConnection();
-			boardList = boardDao.getAllBoardList(conn);
+			boardList = boardDao.getBoardAll(smc);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, null, null, null);
 		}
 		return boardList;
 	}
@@ -70,12 +95,9 @@ public class BoardServiceImpl implements IBoardService{
 		int cnt = 0;
 		
 		try {
-		conn = JDBCUtil3.getConnection();
-			cnt = boardDao.updateBoard(conn, bv);
+			cnt = boardDao.updateBoard(smc, bv);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, null, null, null);
 		}
 		return cnt;
 	}
@@ -85,28 +107,21 @@ public class BoardServiceImpl implements IBoardService{
 		int cnt = 0;
 		
 		try {
-		conn = JDBCUtil3.getConnection();
-			cnt = boardDao.deleteBoard(conn, boardNo);
+			cnt = boardDao.deleteBoard(smc, boardNo);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, null, null, null);
 		}
 		return cnt;
 	}
 
 	@Override
-	public List<BoardVO> boardSerch(BoardVO bv) {
+	public List<BoardVO> getSearchBoard(BoardVO bv) {
 		List<BoardVO> boardList = new ArrayList<>();
 		
 		try {
-			conn = JDBCUtil3.getConnection();
-			boardList = boardDao.boardSerch(conn, bv);
+			boardList = boardDao.getSearchBoard(smc, bv);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			JDBCUtil3.disConnect(conn, null, null, null);
 		}
 		return boardList;
 	}

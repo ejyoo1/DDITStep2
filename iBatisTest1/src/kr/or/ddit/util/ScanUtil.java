@@ -11,15 +11,7 @@ public class ScanUtil {
 	
 	
 	public static String nextLine() {
-		while(true) {
-			String input = s.nextLine();
-			if(!input.equals("")) {
-				return input;
-			}else {
-				System.out.print(">");
-			}
-		}
-//		return s.nextLine();
+		return s.nextLine();
 	}
 	
 	public static int nextInt() {
@@ -43,8 +35,6 @@ public class ScanUtil {
 		            }
 		            //false 일때
 		            return ERROR;
-			}else {
-				System.out.print(">");
 			}
 		}		
 	}

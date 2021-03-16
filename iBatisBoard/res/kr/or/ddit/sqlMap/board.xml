@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- ibatis가 실행할 쿼리를 작성하는 부분 (필요한 SQL를 작성해야 ibatis에서 수행한다.) -->
+<!-- sqlMap : root 태그 -->
+<!-- namespace : SqlMapConfig.xml의 Setting 내 useStatementNamespaces="true"와 관련있다. -->
+<sqlMap namespace="board">
+<!-- 
+	이 영역에 SQL문에 맞는 태그를 사용하여 SQL문을 기술한다.
+	
+	**사용할 수 있는 기본적인 태그들**
+	<select> ~ </select>
+	<insert> ~ </insert>
+	<update> ~ </update>
+	<delete> ~ </delete>
+	
+	**위 태그에서 사용되는 속성들**
+	1) id 속성 : 해당 태그를 호출할 때 <sqlMap> 태그의 namespace와 연결하여 사용하는 이름이다.
+	2) parameterClass속성 : sql문에 사용될 데이터가 들어있는 객체를 지정한다.
+		- 보통 VO 클래스, 자바의 자료형 이름(String, int) 등이 사용된다.
+		- typeAlias로 지정한 alias명을 사용할 수 있다.
+		- 삽입된 파라미터의 값에 대해 ibatis가 자료형을 추측하여 알고있으므로 생략해도 된다. 
+		  하지만 명시적으로 써주는 것이 좋다.
+	3) resultClass 속성 : select 문을 실행한 결과를 담은 객체를 지정한다.
+		- 보통 VO 클래스나 자바의 자료형 이름을 사용한다. 
+ -->
+ 
+ <!-- insertBoard 작성 -->
+ <!-- 
+ 	SqlMapConfig.xml에서 설정한 
+ 	<typeAlias alias="boardVO" type="kr.or.ddit.board.vo.boardVO" />
+ 	로 인하여 
+ 	<insert id="insertBoard" parameterClass="boardVO">로 사용할 수 있고
+ 	이것은
+ 	<insert id="insertBoard" parameterClass="kr.or.ddit.board.vo.boardVO"></insert>  
+ 	과 같다.
+ -->
+ <!-- 
+ 	쿼리 작성 시,
+ 	##안에 property이름을 명시하면,
+ 	ibatis가 ##안에 있는 property이름을 가지고 참조하고 있는 boardVO객체를 찾아
+ 	추측하여 getter에 접근한다.
+ 	ex) boardTitle => getBoardTitle() 찾음
+  -->
+ 	<insert id="insertBoard" parameterClass="boardVO">
+		INSERT INTO JDBC_BOARD(
+			BOARD_NO
+			, BOARD_TITLE
+			, BOARD_WRITER
+			, BOARD_DATE
+			, BOARD_CONTENT) 
+		VALUES(
+			BOARD_SEQ.NEXTVAL
+			, #boardTitle#
+			, #boardWriter#
+			, SYSDATE
+			, #boardContent#)
+	</insert>
+	
+	
+	
+<!-- updateBoard 작성 -->
+	<update id="updateBoard" parameterClass="boardVO">
+		UPDATE JDBC_BOARD 
+		SET 
+		BOARD_TITLE = #boardTitle# 
+		, BOARD_CONTENT = #boardContent# 
+		WHERE BOARD_NO = #boardNo# 
+	</update>
+	
+	
+	
+<!-- deleteBoard 작성 -->
+<!-- delete는 파라미터로 String boardNo를 가져오므로, 참조하는 객체는 String 타입이다. -->
+<!-- 
+	만약, parameterClass에 int 값을 넣는 경우 방법은 2가지가 존재한다.
+	1) parameterClass="int"
+	2) parameterClass="java.lang.Integer" (래퍼클래스)
+-->
+<!-- ##안에 아무 값이나 넣어도 되지만, 명시적으로 컬럼명을 카멜표기법으로 작성한다. -->
+	<delete id="deleteBoard" parameterClass="String">
+		 DELETE FROM JDBC_BOARD 
+		 WHERE BOARD_NO=#boardNo#
+	</delete>
+	
+	
+	
+<!-- selectAllBoard 작성 -->
+<!-- 
+	데이터를 조회하는 경우 방법이 2가지가 존재한다. 
+	방법1) 타입을 설정하고 그에 맞는 컬럼명을 세팅
+	방법2) resultMap방식 이용 (자주 사용하는 방식)
+-->
+<!-- 방법1) 사용
+	<select id="getBoardAll" resultClass="boardVO">
+		SELECT 	BOARD_NO 		as boardNo
+				,BOARD_TITLE 	as boardTitle
+				,BOARD_WRITER	as boardWriter
+				,BOARD_DATE		as boardDate
+				,BOARD_CONTENT	as boardContent
+		FROM JDBC_BOARD	
+	</select>	
+-->
+<!-- 방법2) 사용 -->
+	<!-- 1. Java객체와 DB 컬럼 매핑작업 - ibatis 사용할 수 있도록 -->
+	<resultMap class="boardVO" id="boardMap">
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="boardTitle" column="BOARD_TITLE"/>
+		<result property="boardWriter" column="BOARD_WRITER"/>
+		<result property="boardDate" column="BOARD_DATE"/>
+		<result property="boardContent" column="BOARD_CONTENT"/>
+	</resultMap>
+	<!-- 2. resultMap에서 설정한 매핑정보를 연결한다. -->
+	<select id="getBoardAll" resultMap="boardMap">
+		SELECT * FROM JDBC_BOARD
+	</select>
+	
+	
+
+<!-- checkBoard -->
+	<select id="getCheckBoard" parameterClass="String" resultClass="int">
+		SELECT COUNT(*) CNT 
+		FROM JDBC_BOARD 
+		WHERE BOARD_NO = #boardNo# 
+	</select>
+	
+	
+	
+<!-- SearchBoard(검색기능) -->
+	<select id="getSearchBoard" parameterClass="boardVO" resultMap="boardMap">
+	<!-- 다이나믹 쿼리를 위해(and를 쓰기 위해) 1=1을 사용함. -->
+		SELECT * FROM JDBC_BOARD WHERE 1=1
+		<isNotEmpty property="boardTitle">
+			AND BOARD_TITLE LIKE '%' || #boardTitle# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="boardWriter">
+			AND BOARD_WRITER LIKE '%' || #boardWriter# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="boardContent">
+			AND BOARD_CONTENT LIKE '%' || #boardContent# || '%'
+		</isNotEmpty>
+	</select>
+</sqlMap>			
+
+
+
+
+

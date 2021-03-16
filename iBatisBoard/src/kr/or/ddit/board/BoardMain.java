@@ -1,6 +1,7 @@
 package kr.or.ddit.board;
 
 import java.util.List;
+import java.util.Scanner;
 
 import kr.or.ddit.board.service.BoardServiceImpl;
 import kr.or.ddit.board.service.IBoardService;
@@ -11,8 +12,10 @@ public class BoardMain {
 	private IBoardService boardService;
 	
 	public BoardMain() {
-		boardService = new BoardServiceImpl();
+		boardService = BoardServiceImpl.getInstance();
 	}
+	
+	private Scanner scan = new Scanner(System.in);
 	
 	public static void main(String[] args) {
 		new BoardMain().start();
@@ -55,12 +58,12 @@ public class BoardMain {
 	 */
 	private void displaySearch() {
 		System.out.println("검색할 게시판의 제목을 입력하세요.");
-		System.out.print("검색할 글자(일부만 입력해도 됨) > ");
-		String boardTitle = ScanUtil.nextLine();
-		System.out.println("검색할 작성자(정확히 입력할 것) > ");
-		String boardWriter = ScanUtil.nextLine();
-		System.out.println("검색할 내용(일부만 입력해도 됨) > ");
-		String boardContent = ScanUtil.nextLine();
+		System.out.print("검색할 제목> ");
+		String boardTitle = scan.nextLine().trim(); //공백제거
+		System.out.println("검색할 작성자 > ");
+		String boardWriter = scan.nextLine().trim(); //공백제거
+		System.out.println("검색할 내용 > ");
+		String boardContent = scan.nextLine().trim(); //공백제거
 		BoardVO bv = new BoardVO();
 		bv.setBoardTitle(boardTitle);
 		bv.setBoardWriter(boardWriter);
@@ -71,7 +74,7 @@ public class BoardMain {
 		System.out.println("번호\t제목\t작성자\t작성일\t내용");
 		System.out.println("============================================");
 		
-		List<BoardVO> boardList = boardService.boardSerch(bv);
+		List<BoardVO> boardList = boardService.getSearchBoard(bv);
 		
 		for(BoardVO bv1 : boardList) {
 			System.out.println(
@@ -97,9 +100,9 @@ public class BoardMain {
 		do {
 			System.out.println("삭제할 게시글 번호를 입력하세요.");
 			System.out.print("게시글 ID >> ");
-			boardNo = ScanUtil.nextLine();
+			boardNo = scan.nextLine();
 			
-			chk = boardService.checkBoard(boardNo);
+			chk = boardService.getCheckBoard(boardNo);
 			
 			if(chk == false) {
 				System.out.println("게시글 번호가 " + boardNo + "인 게시글이 없습니다.");
@@ -127,9 +130,9 @@ public class BoardMain {
 		do {
 			System.out.println("수정할 게시글 번호를 입력하세요.");
 			System.out.print("게시글 ID >> ");
-			boardNo = ScanUtil.nextLine();
+			boardNo = scan.nextLine();
 			
-			chk = boardService.checkBoard(boardNo);
+			chk = boardService.getCheckBoard(boardNo);
 			
 			if(chk == false) {
 				System.out.println("게시글 번호가 " + boardNo + "인 게시글이 없습니다.");
@@ -139,11 +142,12 @@ public class BoardMain {
 		
 //		게시글 번호를 정상적으로 입력한 경우 아래 코드 실행
 		System.out.println("게시글 제목 >> ");
-		String boardTitle = ScanUtil.nextLine();
+		String boardTitle = scan.nextLine();
 		System.out.println("게시글 내용 >> ");
-		String boardContent = ScanUtil.nextLine();
+		String boardContent = scan.nextLine();
 		
 		BoardVO bv = new BoardVO();
+		bv.setBoardNo(boardNo);
 		bv.setBoardTitle(boardTitle);
 		bv.setBoardContent(boardContent);
 		
@@ -162,11 +166,11 @@ public class BoardMain {
 	private void insertBoard() {
 		System.out.println("추가할 게시판을 정보를 입력하세요.");
 		System.out.print("게시판 제목 > ");
-		String boardTitle = ScanUtil.nextLine();
+		String boardTitle = scan.nextLine();
 		System.out.print("작성자 이름 > ");
-		String boardWriter = ScanUtil.nextLine();
+		String boardWriter = scan.nextLine();
 		System.out.println("작성 내용 > ");
-		String boardContent = ScanUtil.nextLine();
+		String boardContent = scan.nextLine();
 		
 		BoardVO bv = new BoardVO();
 		bv.setBoardTitle(boardTitle);
@@ -192,7 +196,7 @@ public class BoardMain {
 		System.out.println("번호\t제목\t작성자\t작성일\t내용");
 		System.out.println("============================================");
 		
-		List<BoardVO> boardList = boardService.getAllBoardList();
+		List<BoardVO> boardList = boardService.getBoardAll();
 		
 		for(BoardVO bv : boardList) {
 			System.out.println(

@@ -23,13 +23,13 @@ public interface IBoardService {
 	 * @param boardNo 게시글NO
 	 * @return 해당 게시글 NO가 존재하면 true, 존재하지 않으면 false
 	 */
-	public boolean checkBoard(String boardNo);
+	public boolean getCheckBoard(String boardNo);
 	
 	/**
 	 * 게시글 전체 목록을 가져오는 메서드
 	 * @return 게시글 정보를 담고있는 List 객체
 	 */
-	public List<BoardVO> getAllBoardList();
+	public List<BoardVO> getBoardAll();
 	
 	/**
 	 * 게시글 정보를 수정하는 메서드
@@ -50,5 +50,5 @@ public interface IBoardService {
 	 * @param bv 게시글정보 객체
 	 * @return 작업성공 : 1, 작업 실패 : 0
 	 */
-	public List<BoardVO> boardSerch(BoardVO bv);
+	public List<BoardVO> getSearchBoard(BoardVO bv);
 }
