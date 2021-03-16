@@ -67,7 +67,7 @@ public class BoardDaoImpl implements IBoardDao{
 		
 		while(rs.next()) {
 			BoardVO bv = new BoardVO();
-			int boardNo = rs.getInt("BOARD_NO");
+			String boardNo = rs.getString("BOARD_NO");
 			String boardTitle = rs.getString("BOARD_TITLE");
 			String boardWriter = rs.getString("BOARD_WRITER");
 			String boardDate = rs.getString("BOARD_DATE");
@@ -88,20 +88,22 @@ public class BoardDaoImpl implements IBoardDao{
 	@Override
 	public int updateBoard(Connection conn, BoardVO bv) throws SQLException {
 		String sql = " UPDATE JDBC_BOARD SET BOARD_TITLE = ?, BOARD_CONTENT = ? WHERE BOARD_NO = ? ";
-		
+		System.out.println("bv.getBoardNo() : " + bv.getBoardNo());
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, bv.getBoardTitle());
 		pstmt.setString(2, bv.getBoardContent());
-		pstmt.setInt(3, bv.getBoardNo());
+		pstmt.setString(3, bv.getBoardNo());
 		
 		int cnt = pstmt.executeUpdate();
 		
+		System.out.println("update 문 실행 결과 : " + cnt);
 		return cnt;
 	}
 
 	@Override
 	public int deleteBoard(Connection conn, String boardNo) throws SQLException {
-		String sql = " DELECT FROM JDBC_BOARD WHERE BOARD_NO=? ";
+		String sql = " DELETE FROM JDBC_BOARD WHERE BOARD_NO=? ";
+		System.out.println("boardNo" + boardNo);
 		
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, boardNo);
@@ -122,7 +124,7 @@ public class BoardDaoImpl implements IBoardDao{
 		rs = pstmt.executeQuery();
 		
 		while(rs.next()) {
-			int boardNo = rs.getInt("BOARD_NO");
+			String boardNo = rs.getString("BOARD_NO");
 			String boardTitle = rs.getString("BOARD_TITLE");
 			String boardWriter = rs.getString("BOARD_WRITER");
 			String boardDate = rs.getString("BOARD_DATE");

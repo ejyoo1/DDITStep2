@@ -144,6 +144,7 @@ public class BoardMain {
 		String boardContent = ScanUtil.nextLine();
 		
 		BoardVO bv = new BoardVO();
+		bv.setBoardNo(boardNo);
 		bv.setBoardTitle(boardTitle);
 		bv.setBoardContent(boardContent);
 		
