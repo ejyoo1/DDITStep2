@@ -6,7 +6,6 @@ import java.util.Scanner;
 import kr.or.ddit.board.service.BoardServiceImpl;
 import kr.or.ddit.board.service.IBoardService;
 import kr.or.ddit.board.vo.BoardVO;
-import kr.or.ddit.util.ScanUtil;
 
 public class BoardMain {
 	private IBoardService boardService;
@@ -28,7 +27,7 @@ public class BoardMain {
 		int userchoice;
 		while(true) {
 			displayMenu();
-			userchoice = ScanUtil.nextInt();
+			userchoice = scan.nextInt();
 			switch(userchoice) {
 			case 1: //전체 목록 출력
 				displayAll();
