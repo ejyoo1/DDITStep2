@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<!-- sql 관련 설정파일임. -->
+<sqlMapConfig>
+	<!--
+	DB와 연결하는 정보를 properties파일에 설정해 놓고(SqlMapConfig.properties) 이 properties파일의
+	내용을 읽어와 설정한다.
+	 -->
+	<properties resource="SqlMapConfig.properties" />
+
+	<!-- ibatis를 처리하기 위한 환경설정 부분 (몇개까지 요청, 몇개 세션 요청? 디폴트 쓰면 크게 문제는 없음.)-->
+	<!-- useStatementNamespaces : Namespaces 를 사용하겠다. => Namespaces의 목적 : package와 동일 : 이름을 구분하기 위한 방법 -->
+	<!-- 나중에 쿼리 날릴 때 id를 부여하는데 이 id를 충돌하지 않도록 하겠다. 이런의미로 봐도 됨. -->
+	<!-- 나중에 세팅이 필요한 경우 메뉴얼을 보고 변경한다. -->
+	<!-- useStatementNamespaces="false" 이면 namespace를 사용하지 않고 smc.insert("member.insertMember", mv); 할 때 member.insertMember를 id로 본다. -->
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="true" />
+
+	<!--
+	VO클래스등의 이름이 패키지명까지 기술하면 길어지는데 이것을 간단히
+	표시하기 위해서 alias를 지정할 수 있다.
+	형식) <typeAlias alias="alias명" type="클래스의 풀네임"/>
+	 -->
+	 <!-- type : 패키지로부터 클래스 파일 까지 타입에 대해서 경로에 대한 별명을 지어줌. -->
+	 <!-- 왜사용 ? 간단히 표시하기 위해 그게아니면 type을 계속 써야함. -->
+	<!-- type Alias 지정 -->
+ 	<typeAlias alias="memVO" type="kr.or.ddit.member.vo.MemberVO"/>
+
+	<!--
+	DB와의 연결을 처리하는 부분
+	SqlMapConfig.properties에 설정해 놓은 정보를 이용하여 구성한다.
+	1. SIMPLE => SimpleDataSourceFactory
+		SimpleDataSource는 데이터소스를 제공하는 컨테이너가 없는 경우 connection을 제공하기 위해 기본적으로 pooling 데이터소스 구현을 제공한다.
+		이것은 iBATIS SimpleDataSource connection pooling을 기반으로 한다.
+
+	2. DBCP => DbcpDataSourceFactory
+	DbcpDataSourceFactory는 DataSource API를 통해 connection pooling 서비스를 제공하기 위해 DBCP를 사용한다.
+	이 DataSource는 어플리케이션/웹 컨테이너가 DataSource 구현물을 제공하지 못하거나 standalone 어플리케이션을 구동할 때 이상적이다.
+
+    3. JNDI => JndiDataSourceFactory
+ 	JndiDataSourceFactory 는 어플리케이션 컨테이너내 JNDI 컨텍스트로부터 DataSource 구현물을 가져와야 한다.
+ 	이것은 어플리케이션 서버를 사용중이고 컨테이너 관리 connection pool 과 DataSource 가 제공될 때 사용한다.
+ 	JDBC DataSource 구현물에 접근하기 위한 표준적인 방법은 JNDI 컨텍스트를 통하여 접근하는 것이다.
+
+
+
+	 -->
+	 <!-- db 접속정보 설정 영역 -->
+	<transactionManager type="JDBC">
+		<dataSource type="SIMPLE">
+		<!--
+			각종 설정을 직접 기술해서 처리할 수도 있다.
+			<property name="JDBC.Driver" value="oracle.jdbc.driver.OracleDriver" />
+		 -->
+		 <!-- 키가 driver인 것에 대해서 찾은 뒤 replace된다. -->
+		 <!-- SqlMapConfig.properties에 있는 값을 읽어서 처리 -->
+			<property name="JDBC.Driver" value="${driver}" />
+			<property name="JDBC.ConnectionURL" value="${url}" />
+			<property name="JDBC.Username" value="${username}" />
+			<property name="JDBC.Password" value="${password}" />
+			<!-- 커넥션 개수를 1개로 설정함. -->
+			<property name="Pool.MaximumActiveConnections" value="1"/>
+			<property name="Pool.MaximumIdleConnections" value="1"/>
+		</dataSource>
+	</transactionManager>
+
+
+<!-- 중요******************************************* -->
+	<!--
+	실제 처리할 SQL문은 xml문서로 따로 만든 후
+	그 xml문서와 아래와 같이 연결하여 사용한다.
+	형식) <sqlMap resource="경로명/파일명.xml"/>
+	-->
+	<!-- 이것을 안만들면 절대로 못찾음 -->
+	<!-- 쿼리를 실행하는 것이 주 목적이고 최종 결과물이 있으면 그 객체에 넣어주는것까지 다 해주는 것이 ibatis이다. -->
+	<!-- xml의 위치를 알고있어야 쿼리를 실행할 수 있음. -->
+	<sqlMap resource="kr/or/ddit/basic/member.xml"/>
+<!-- 	<sqlMap resource="ibatis/member/memberMain.xml"/> -->
+<!-- 중프할 때는 resource 가 많아진다. (마이페이지용 Qna 용 게시판 별로 쿼리가 쪼개짐 -->
+	<sqlMap resource="kr/or/ddit/sqlmap/member.xml" />
+</sqlMapConfig>
+
+
+
+
+
+

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- ibatis가 실행할 쿼리를 작성하는 부분임 (필요한 정보들을 설정해야 ibatis에서 수행함) -->
+<!-- sqlMap : root 태그 -->
+<!-- namespace : SqlMapConfig.xml의 Setting 내 useStatementNamespaces="true" : namespace를 쓰겠다. -->
+<sqlMap namespace="memberTest">
+<!-- 
+	이 영역에 sql문에 맞는 태그를 사용하여 SQL문을 기술한다.
+	
+	사용할 수 있는 기본적인 태그들
+	<select> ~ </select>
+	<insert> ~ </insert>
+	<update> ~ </update>
+	<delete> ~ </delete>
+	
+	위 태그에서 사용되는 속성들
+	
+	1) id속성 : 해당 태그를 호출할 때 <sqlMap>태그의 namespace와 연결하여 사용하는 이름
+	2) parameterClass속성 : sql문에 사용될 데이터가 들어있는 객체를 지정한다.
+	(보통 VO클래스, 자바의 자료형이름 등이 사용된다.)
+	(typeAlias로 지정한 alias명을 사용할 수 있다.)
+	3) resultClass 속성 : select문을 실행한 결과를 담을 객체를 지정한다.
+	(보통VO 클래스나 자바의 자료형이름을 사용한다.)
+ -->
+ <!-- id 지정 , 객체 파라미터의 타입 지정. 이제 객체를 참고하도록 함. (getter를 추출해서 뽑아낼 수 있음.)-->
+ <!-- ##안에 property이름을 명시하면 idatis가 memId를 가지고 유추해서 getter에 접근한다. getMemId() -->
+ 	<insert id="insertMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+ 		 insert into mymember  
+ 		 (mem_id, mem_name, mem_tel, mem_addr) 
+ 		 values (#memId#,#memName#,#memTel#,#memAddr#) 
+ 	</insert>
+ 	
+ 	<update id="updateMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+ 		 update mymember 
+ 		 set mem_name = #memName#
+ 		 , mem_tel = #memTel#
+ 		 , mem_addr = #memAddr# 
+ 		 where mem_id = #memId#
+ 	</update>
+ 	
+ 	<!-- memberid의 타입이 String이므로 String을 넣음 -->
+ 	<!-- 사실 parameterClass는 생략할 수 있다. 생략할 수 있는 이유는 이미 파라미터를 넣을 때 String 값을 넣어주기 때문에
+ 	알려주지 않아도 ibatis가 그 값을 알아서 판단 가능하다. 하지만 명시적으로 넣어주는 것이다.
+ 	단, result?라는 곳을 나중에 배우게 될텐데. 그 곳은 생략하면 안된다. -->
+ 	<!-- parameterClass안에 String을 넣었다.
+ 	여기서 int 값을 넣으려면 2가지 방법이 있다.
+ 	1) int
+ 	2) java.lang.Integer
+ 	둘중 하나 넣어도된다.
+ 	 -->
+ 	<delete id="deleteMember" parameterClass="String">
+ 	<!-- String 타입이라는것을 알고 있으므로 ##안에 아무거나 넣어도 된다. 객체일때만 getter명을 사용한다.-->
+ 		delete from mymember where mem_id = #memId#
+ 	</delete>
+ 	
+ 	<!-- 파라미터가 없으므로 parameterClass는 생략 -->
+ 	<!-- MemberVO에 결과를 담아야 하므로 ibatis에 알려주어야 하니까  resultClass속성을 사용한다.-->
+ 	<!-- 쿼리 실행 결과인 List에 담을 때, 어떤 타입으로 담을 지 명시를 해야한다. -->
+ 	<!-- select 된 결과가 Main에서 Setter로 출력될 수 있도록 세팅이 필요함.(이것을 세팅하지 않으면 null로 테이블 릴레이션 인스턴스 수만큼 출력된다. -->
+ 	<!-- 컬럼이름을 as를 사용하여 setter와 같게 구성해준다. -->
+ 	<!-- 방법1) 타입을 설정하고 그에 맞는 컬럼명을 세팅
+ 	<select id="getMemberAll" resultClass="kr.or.ddit.member.vo.MemberVO">
+ 		select 	mem_id as memId
+ 				,mem_name as memName
+ 				,mem_tel as memTel
+ 				,mem_addr as memAddr
+ 		from mymember
+ 		
+ 	</select>
+ 	-->
+ 	
+ 	<!-- 방법2) resultMap방식 이용 (자주 사용)-->
+ 	<resultMap class="kr.or.ddit.member.vo.MemberVO" id="memMap">
+ 		<!-- 자바 객체의 memId는 DB에서 mem_id와 동일하다. (매핑작업) = 이런 작업으로 인해 ibatis를 데이터 맵퍼라고 한다. -->
+ 		<result property="memId" column="mem_id"/>
+ 		<result property="memName" column="mem_name"/>
+ 		<result property="memTel" column="mem_tel"/>
+ 		<result property="memAddr" column="mem_addr"/>
+ 	</resultMap>
+ 	<!-- 아래 코드에서 resultMap 속성을 사용하여 resultMap에 설정한 매핑정보를 연결한다. -->
+ 	<select id="getMemberAll" resultMap="memMap">
+ 	<!-- resultMap속성을 사용하면 as를 사용하지 않다도 된다. -->
+ 		select *
+ 		from mymember
+ 	</select>
+ 	
+ 
+ 	<select id="getMember" parameterClass="String" resultMap="memMap">
+ 		select * from mymember where mem_id = #memId#
+ 	</select>
+ 	
+ 	
+ 	
+ 	<select id="getSearchMember" parameterClass="memVO" resultMap="memMap">
+ 		<!-- and를 쓰기위해 1=1을 사용(다이나믹 쿼리 위함) -->
+		select * from mymember where 1=1
+		<isNotEmpty property="memId">
+			and mem_id = #memId#
+		</isNotEmpty>
+		<isNotEmpty property="memName">
+			and mem_name = #memName#
+		</isNotEmpty>
+		<isNotEmpty property="memTel">
+			and mem_tel = #memTel#
+		</isNotEmpty>
+		<isNotEmpty property="memAddr">
+			and mem_addr like '%' || #memAddr# || '%' 
+		</isNotEmpty>
+ 	</select>
+</sqlMap>			
+
+
+
+
+
