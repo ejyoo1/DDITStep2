@@ -8,7 +8,7 @@
 	<properties resource="SqlMapConfig.properties" />
 	
 	<!-- ibatis를 처리하기 위한 환경 설정 부분 -->
-	<!-- 
+	<!-- 튜닝 관련 부분임.
 		maxRequests : 몇개까지 요청 
 		maxSessions : 몇개 세션 요청
 		useStatementNamespaces : namespace를 사용할건지 선택
