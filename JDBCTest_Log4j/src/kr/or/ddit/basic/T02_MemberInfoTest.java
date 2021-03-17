@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import kr.or.ddit.util.JDBCUtil3;
 
 /*
@@ -48,6 +50,16 @@ public class T02_MemberInfoTest {
 
 	private Scanner scan = new Scanner(System.in);
 
+	
+//	Log4j를 이용한 로그를 남기기 위한 로거 생성
+//	Logger.getLogger(클래스객체||String경로);
+//	SQL 관련 로그
+	private static final Logger SQL_LOGGER = Logger.getLogger("log4jexam.sql.Query");
+//	파라미터 관련 로그
+	private static final Logger PARAM_LOGGER = Logger.getLogger("log4jexam.sql.Parameter");
+//	클래스에 대한 로거를 만든다는 의미임.
+//	최종 결과에 대한 로그
+	private static final Logger RESULT_LOGGER = Logger.getLogger(T02_MemberInfoTest.class);
 	
 	public static void main(String[] args) {
 		new T02_MemberInfoTest().start();
@@ -294,14 +306,28 @@ public class T02_MemberInfoTest {
 			conn = JDBCUtil3.getConnection();
 
 			String sql = " insert into mymember (mem_id, mem_name, mem_tel, mem_addr) " + " values (?, ?, ?, ?)";
-
+			
+//			로거 남기기(디버그 레벨로 찍기) / syso과 똑같은 기능이지만 로깅프레임워크를 사용한것임.
+			SQL_LOGGER.debug("쿼리 : " + sql);//log4j.logger.log4jexam.sql.Query=DEBUG 로인해 나옴 
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, memId);
 			pstmt.setString(2, memName);
 			pstmt.setString(3, memTel);
 			pstmt.setString(4, memAddr);
+			
+//			파라미터 찍기위한 로거 생성
+			PARAM_LOGGER.debug("파라미터 : (" //log4j.logger.log4jexam.sql.Parameter=WARN  로인해 debug는 안나옴
+						+ memId +
+						"," + memName +
+						"," + memTel +
+						"," + memAddr + ")"
+					);
 
 			int cnt = pstmt.executeUpdate();
+			
+//			수행 최종 결과 확인 로거 생성
+			RESULT_LOGGER.warn("결과 : " + cnt);//log4j.rootLogger=INFO, stdout 디폴트 설정 Info 로 인해 결과는 나옴
 
 			if (cnt > 0) {
 				System.out.println(memId + "회원 추가 작업 성공");
