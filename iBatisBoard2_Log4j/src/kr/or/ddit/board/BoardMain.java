@@ -164,6 +164,7 @@ public class BoardMain {
 	 */
 	private void insertBoard() {
 		System.out.println("추가할 게시판을 정보를 입력하세요.");
+		scan.nextLine();
 		System.out.print("게시판 제목 > ");
 		String boardTitle = scan.nextLine();
 		System.out.print("작성자 이름 > ");
