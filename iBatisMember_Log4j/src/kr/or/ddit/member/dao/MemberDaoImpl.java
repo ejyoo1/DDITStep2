@@ -3,8 +3,11 @@ package kr.or.ddit.member.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.ibatis.sqlmap.client.SqlMapClient;
 
+import kr.or.ddit.member.MemberMain;
 import kr.or.ddit.member.vo.MemberVO;
 
 public class MemberDaoImpl implements IMemberDao {
@@ -24,10 +27,25 @@ public class MemberDaoImpl implements IMemberDao {
 		
 		return memDao;
 	}
+	
+//	파라미터 관련 로거 생성
+	private static final Logger PARAM_LOGGER = Logger.getLogger("log4jexam.sql.Parameter");
+//	클래스에 대한 로거 생성
+//	최종 결과에 대한 로그
+	private static final Logger RESULT_LOGGER = Logger.getLogger(MemberDaoImpl.class);
 
 	@Override
 	public int insertMember(SqlMapClient smc, MemberVO mv) throws SQLException {
 		int cnt = 0;
+		
+//		파라미터를 찍기위한 로거 생성
+		PARAM_LOGGER.debug("파라미터 : ("
+						+ "[" 	+ smc + "]"
+						+ "[" 	+ mv.getMemId() + ", "
+								+ mv.getMemName() + ", "
+								+ mv.getMemTel() + ", "
+								+ mv.getMemAddr() + "]"
+					);
 		
 		Object obj = smc.insert("member.insertMember", mv);
 		
@@ -35,6 +53,8 @@ public class MemberDaoImpl implements IMemberDao {
 //			데이터 삽입 성공
 			cnt = 1;
 		}
+		
+		RESULT_LOGGER.warn("결과 : " + cnt);
 		
 		return cnt;
 	}
