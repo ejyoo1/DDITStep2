@@ -38,6 +38,7 @@ public class T02_FileTest {
 		
 		
 		File f3 = new File("d:/D_Other");
+		//리스트 목록을 가져오는 메서드 listFiles()
 		File[] files = f3.listFiles();
 		for(int i = 0 ; i < files.length ; i++) {
 			System.out.println(files[i].getName() + " => ");
