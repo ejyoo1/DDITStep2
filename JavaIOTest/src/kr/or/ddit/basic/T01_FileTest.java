@@ -18,8 +18,8 @@ public class T01_FileTest {
 		System.out.println("디렉토리(폴더) 여부 : " + file.isDirectory());
 		System.out.println("==================================");
 		
-		File file2 = new File("d:/D_Other");
-//		File file2 = new File("d:/D_Other/test.txt");
+//		File file2 = new File("d:/D_Other");
+		File file2 = new File("d:/D_Other/test.txt");
 		System.out.print(file2.getName() + "은 ");
 		if(file2.isFile()) {
 			System.out.println("파일");
@@ -53,6 +53,7 @@ public class T01_FileTest {
 //		현재 클래스의 절대 경로를 가져오기
 //		/C:/Users/PC-19/Desktop/test/DDITStep2/JavaIOTest/bin/kr/or/ddit/basic/
 		System.out.println(T01_FileTest.class.getResource("").getPath());
+		System.out.println(T01_FileTest.class.getResource(""));
 		
 		
 		
