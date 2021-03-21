@@ -11,14 +11,17 @@ public class T01_FileTest {
 		 * => 디렉토리와 디렉토리 사이 또는 디렉토리와 파일명 사이의 구분 문자는
 		 * 	'\'을 사용하거나 '/'를 사용할 수 있다.
 		 */
+		
+		File file = new File("/Users/yooeunji/Desktop/test.txt");
 //		File file = new File("d:/D_Other/test.txt");
-		File file = new File("d:\\D_Other\\test.txt"); //이스케이프로 인해서 \를 2개 씀. Java에서 \n 이런식으로 사용하고 있기 때문임.
+//		File file = new File("d:\\D_Other\\test.txt"); //이스케이프로 인해서 \를 2개 씀. Java에서 \n 이런식으로 사용하고 있기 때문임.
 		System.out.println("파일 명 : " + file.getName());
 		System.out.println("파일 여부 : " + file.isFile());
 		System.out.println("디렉토리(폴더) 여부 : " + file.isDirectory());
 		System.out.println("==================================");
 		
 //		File file2 = new File("d:/D_Other");
+//		File file2 = new File("d:/D_Other/test.txt");
 		File file2 = new File("d:/D_Other/test.txt");
 		System.out.print(file2.getName() + "은 ");
 		if(file2.isFile()) {
@@ -66,7 +69,8 @@ public class T01_FileTest {
 		 * 2. mkdirs()	=> 중간의 경로가 없으면 중간의 경로도 새롭게 만든 후 마지막 위치의 디렉토리를 만들어준다.
 		 * => 위 두 메서드 모두 만들기를 성공하면 true, 실패하면 false를 반환
 		 */
-		File file6 = new File("d:/D_Other/연습용");
+//		File file6 = new File("d:/D_Other/연습용");
+		File file6 = new File("/Users/yooeunji/Desktop/JavaIOTest");
 		if(file6.mkdir()) {
 			System.out.println(file6.getName() + "만들기 성공!");
 		}else {
@@ -74,7 +78,8 @@ public class T01_FileTest {
 		}
 		System.out.println();
 		
-		File file7 = new File("d:/D_Other/test/java/src");
+//		File file7 = new File("d:/D_Other/test/java/src");
+		File file7 = new File("/Users/yooeunji/Desktop/JavaIOTest/test");
 		if(file7.mkdirs()) {
 			System.out.println(file7.getName() + "만들기 성공!");
 		}else { 

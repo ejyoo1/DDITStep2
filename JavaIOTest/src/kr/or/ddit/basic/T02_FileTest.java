@@ -10,8 +10,11 @@ import java.util.List;
 public class T02_FileTest {
 	public static void main(String[] args) {
 //		파일 객체는 데이터를 가져오는것만 할 수 있음. 입력은 스트림이 함.
-		File f1 = new File("d:/D_Other/sample.txt");
-		File f2 = new File("d:/D_Other/test.txt");
+//		File f1 = new File("d:/D_Other/sample.txt");
+//		File f2 = new File("d:/D_Other/test.txt");
+		File f1 = new File("/Users/yooeunji/Desktop/sample.txt");
+		File f2 = new File("/Users/yooeunji/Desktop/test.txt");
+		
 		
 		if(f1.exists()) {
 			System.out.println(f1.getAbsolutePath() + "은 존재합니다.");
@@ -37,7 +40,8 @@ public class T02_FileTest {
 		
 		
 		
-		File f3 = new File("d:/D_Other");
+//		File f3 = new File("d:/D_Other");
+		File f3 = new File("/Users/yooeunji/Desktop/JavaIOTest");
 		//리스트 목록을 가져오는 메서드 listFiles()
 		File[] files = f3.listFiles();
 		for(int i = 0 ; i < files.length ; i++) {
@@ -60,7 +64,8 @@ public class T02_FileTest {
 		
 		
 //		출력할 디렉토리 정보를 갖는 File 객체 생성
-		File f4 = new File("D:\\@YOOEUNJI");
+//		File f4 = new File("D:\\@YOOEUNJI");
+		File f4 = new File("/Users/yooeunji/Desktop/JavaIOTest");
 		
 		displayFileList(f4);// 파일 목록 정보조회
 	}
