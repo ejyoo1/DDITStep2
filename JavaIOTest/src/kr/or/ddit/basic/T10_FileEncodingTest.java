@@ -28,6 +28,7 @@ public class T10_FileEncodingTest {
 		FileOutputStream fos2 = new FileOutputStream("d:/D_Other/out_ansi.txt");
 		
 //		보조스트림 객체 생성
+		//원하는 인코딩 타입으로 저장하기 위해 바이트 기반을 문자기반으로 변환함.
 		OutputStreamWriter osw1 = new OutputStreamWriter(fos1, "utf-8");
 		OutputStreamWriter osw2 = new OutputStreamWriter(fos2, "ms949");
 		
