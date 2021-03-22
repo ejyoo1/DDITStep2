@@ -25,7 +25,7 @@ public class T09_FileEncodingTest {
 	 - US-ASCII => 영문 전용 인코딩 방식
 	 
 	 ANSI는 영어를 표기하기위해 만든 코드로 규격 자체에 한글이 없다가 나중에 여기에 EUC-KR, CP949 이라는 식으로
-	 한글이 포함되었다.
+	 한글이 포함되었다. (ANSI 계열 윈도우 : CP949, MS949) (현재는 최근 시스템은 EUC-KR)
 	 
 	 참고)
 	 ASCII => extended ASCII(ISO 8859-1) => 조합형(초성,중성,종성), 완성형(KSC5601)
@@ -45,6 +45,9 @@ public class T09_FileEncodingTest {
 		try {
 			fis = new FileInputStream("d:/D_Other/test_ansi.txt");
 			
+			//기반 스트림을 보조하기 위해 보조스트림을 사용
+			//보조 스트림은 반드시 기반 스트림이 필요하다. 보조스트림 혼자 사용을 못함.
+			//보조스트림 인자값으로 기반 스트림 객체를 넣어주저야 한다.
 			isr = new InputStreamReader(fis, "CP949");
 			
 			int c;
