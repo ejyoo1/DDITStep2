@@ -13,13 +13,13 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import util.ScanUtil;
 
 public class T20_HotelManagement_Serializable {
+	//hotelMember 변수 생성 => 이 변수는 호텔 프로그램 실행 시 호텔에 숙박하는 호수, 사용자 명을 담을 것임.
 	private Map<String,HotelVO> hotelMembers;
 	
-	
+	//hotelMembers 객체를 생성한다. (다형성 개념이 들어가서 Map안에 HashMap이 들어간것이다.)
 	private T20_HotelManagement_Serializable() {
 		hotelMembers = new HashMap<String,HotelVO>();
 	}
@@ -35,7 +35,7 @@ public class T20_HotelManagement_Serializable {
 		File f1 = new File("d:/D_Other/ejyooHotelManagement.bin");
 		
 		if(f1.exists()) {
-			System.out.println(f1.getAbsolutePath() + "은 존재합니다.");
+//			System.out.println(f1.getAbsolutePath() + "은 존재합니다.");
 			//파일로 저장된 폰북 불러오기
 			HotelImport();
 		}
@@ -107,7 +107,7 @@ public class T20_HotelManagement_Serializable {
 			while((obj = ois.readObject()) != null) { //ois.readObject() 역직렬화(내부적으로 역직렬화 작업 수행)
 				//마지막에 다다르면 EOF 예외 발생함.
 				HotelVO hotelVo = (HotelVO) obj;
-				hotelMembers.put(hotelVo.getRoomNum(), new HotelVO(hotelVo.getRoomNum(), hotelVo.getCheckMember()));
+				hotelMembers.put(hotelVo.getRoomNum(), hotelVo);
 			}
 			ois.close();
 		
@@ -116,7 +116,6 @@ public class T20_HotelManagement_Serializable {
 			//더이상 읽어올 객체가 없으면 예외 발생함.
 			System.out.println("출력 작업 끝...");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -174,7 +173,6 @@ public class T20_HotelManagement_Serializable {
 	}
 }
 
-
 class HotelVO implements Serializable {
 	private String roomNum;
 	private String checkMember;
@@ -201,6 +199,4 @@ class HotelVO implements Serializable {
 	public void setCheckMember(String checkMember) {
 		this.checkMember = checkMember;
 	}
-	
-	
 }

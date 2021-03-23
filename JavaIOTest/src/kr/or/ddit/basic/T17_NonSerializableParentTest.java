@@ -14,6 +14,8 @@ import java.io.Serializable;
  * 1. 부모클래스가 Serializable 인터페이스를 구현하도록 해야한다.
  * 2. 자식 클래스에 writeObject()와 readObject()메서드를 이용하여 부모객체의 필드값을 처리할 수 있도록 직접 구현한다.
  * @author PC-19
+ *직렬화 하는 시점과 역직렬화 하는 시점에 파일이 다른 경우. 역직렬화가 안될 수 있다. 
+ *이런 경우 직렬화를 다시 할것!
  *
  */
 public class T17_NonSerializableParentTest {

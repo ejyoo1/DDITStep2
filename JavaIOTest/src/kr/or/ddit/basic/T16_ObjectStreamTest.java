@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+//Object 를 IO 작업을 하기위해서는 직렬화 역직렬화 작업이 필요하다.
 public class T16_ObjectStreamTest {
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
 //		Member 인스턴스 생성
