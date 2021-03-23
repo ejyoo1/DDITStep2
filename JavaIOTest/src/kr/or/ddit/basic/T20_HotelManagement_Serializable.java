@@ -25,6 +25,7 @@ public class T20_HotelManagement_Serializable {
 	}
 	
 	public static void main(String[] args) {
+		//메인 메서드에서 start() 메서드를 호출한다.
 		new T20_HotelManagement_Serializable().start();
 	}
 	
@@ -32,11 +33,12 @@ public class T20_HotelManagement_Serializable {
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("호텔문을 열었습니다.");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+//		파일 객체에 파일 경로를 삽입한다.
 		File f1 = new File("d:/D_Other/ejyooHotelManagement.bin");
 		
+//		파일이 존재하는 경우
 		if(f1.exists()) {
-//			System.out.println(f1.getAbsolutePath() + "은 존재합니다.");
-			//파일로 저장된 폰북 불러오기
+//			파일로 저장된 폰북을 불러온다.
 			HotelImport();
 		}
 		
@@ -74,12 +76,9 @@ public class T20_HotelManagement_Serializable {
 							new BufferedOutputStream(
 									new FileOutputStream("d:/D_Other/ejyooHotelManagement.bin")));
 			
-			System.out.println("향상된 for문을 이용한 방법");
 			for(String key : keySet) {
 				System.out.println(key + " : " + hotelMembers.get(key));
-			
-				
-//						쓰기 작업
+//				쓰기 작업
 				oos.writeObject(hotelMembers.get(key));
 				System.out.println("바이너리 형태로 쓰기 작업 완료");
 				
