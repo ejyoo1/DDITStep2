@@ -8,7 +8,7 @@ public class T03_ThreadTest {
 	public static void main(String[] args) {
 		Thread th = new Thread(new MyRunner());
 		
-		/*UTC(협정세계 표준시)를 사용하여 
+		/*UTC(협정세계 표준시)를 사용하여 (unix time stamp)
 		1970년 1월 1일 0시 0분 0초를 기준으로 경과한 시간을 밀리세컨드(1/1000초)단위로 나타낸다. => 유닉스 타임스탬프*/
 		long startTime = System.currentTimeMillis();
 		

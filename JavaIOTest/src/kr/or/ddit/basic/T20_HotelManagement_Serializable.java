@@ -16,10 +16,8 @@ import java.util.Set;
 import util.ScanUtil;
 
 public class T20_HotelManagement_Serializable {
-	//hotelMember 변수 생성 => 이 변수는 호텔 프로그램 실행 시 호텔에 숙박하는 호수, 사용자 명을 담을 것임.
-	private Map<String,HotelVO> hotelMembers;
+	private Map<String,HotelVO> hotelMembers;//클래스 변수 아님 인스턴스 변수임. 클래스 변수는 static으로 선언해야 클래스 변수임
 	
-	//hotelMembers 객체를 생성한다. (다형성 개념이 들어가서 Map안에 HashMap이 들어간것이다.)
 	private T20_HotelManagement_Serializable() {
 		hotelMembers = new HashMap<String,HotelVO>();
 	}
@@ -68,7 +66,6 @@ public class T20_HotelManagement_Serializable {
 
 	private void HotelExport() {
 		//맵을 읽어온다.
-		//EntrySet으로 변환하여 출력(구분자 넣을것이기 때문에 이 방법을 사용함)
 		Set<String> keySet = hotelMembers.keySet();
 		try {
 			ObjectOutputStream oos = 

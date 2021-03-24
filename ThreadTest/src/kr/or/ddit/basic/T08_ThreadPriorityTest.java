@@ -13,7 +13,7 @@ public class T08_ThreadPriorityTest {
 		Thread th9 = new ThreadTest1();
 		Thread th10 = new ThreadTest2();
 		
-//		우선순위는 start() 메서드를 호출하기 전에 설정해야 한다.
+//		우선순위는 start() 메서드를 호출하기 전에 설정해야 한다. ( 최소 : 1 / 최대 10 : 중간 5)
 		th1.setPriority(1);
 		th2.setPriority(1);
 		th3.setPriority(1);
