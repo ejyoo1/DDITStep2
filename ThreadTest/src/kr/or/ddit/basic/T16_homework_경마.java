@@ -22,7 +22,7 @@ import java.util.Set;
  *
  *경기가 끝나면 등수를 기준으로 정렬하여 출력한다.
  */
-public class T20_homework_경마 {
+public class T16_homework_경마 {
 	public final static int SECTION = 50;
 	static String strRank = "";
 	static int ranks = 1;
@@ -85,10 +85,10 @@ class Horse extends Thread implements Comparable<Horse>{
 	
 	@Override
 	public void run() {
-		int test = (int)(Math.random() * 20) + 1;
-		for(int i = 0 ; i <= T20_homework_경마.SECTION ; i++) {
+		int test = (int)(Math.random() * 10) + 1;
+		for(int i = 0 ; i <= T16_homework_경마.SECTION ; i++) {
 			//값 증가
-			T20_homework_경마.hLocation.put(name,i);//막 달리다가
+			T16_homework_경마.hLocation.put(name,i);//막 달리다가
 			try {
 				Thread.sleep((int)(Math.random() * 301 + 200));//랜덤으로 슬립
 			} catch(InterruptedException ex) {
@@ -101,19 +101,20 @@ class Horse extends Thread implements Comparable<Horse>{
 			
 			if(rank==7) {
 				test = (int)(Math.random() * 10) + 1;
+				printLocation();
 			}
 		}
 		
 		System.out.println("■" + name + "■ 도착했습니다 !!!");
-		rank = T20_homework_경마.ranks++;
-		T20_homework_경마.strRank += "[" + name + "," + rank + "등]\n";
+		rank = T16_homework_경마.ranks++;
+		T16_homework_경마.strRank += "[" + name + "," + rank + "등]\n";
 	}
 	
 	/*경마 출력 - 랜덤 출력 위해 현재 위치 정보 저장*/
 	public void printLocation() {
 		System.out.println();
 		//순서가 없어서 순서가 있는 List로 데이터 가공
-		Map<String,Integer> horseMap = T20_homework_경마.hLocation;
+		Map<String,Integer> horseMap = T16_homework_경마.hLocation;
 		Set<String> keySet = horseMap.keySet();
 		List<String> keyName = new ArrayList<String>();
 		for(String key : keySet) {
@@ -130,7 +131,7 @@ class Horse extends Thread implements Comparable<Horse>{
 			
 			System.out.print(">");
 			
-			for(int j = horseMap.get(keyName.get(i)) + 1 ; j <= T20_homework_경마.SECTION ; j++) {
+			for(int j = horseMap.get(keyName.get(i)) + 1 ; j <= T16_homework_경마.SECTION ; j++) {
 				System.out.print("-");
 			}
 			System.out.println();
