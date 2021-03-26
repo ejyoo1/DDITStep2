@@ -79,13 +79,13 @@ class ThreadStopEx2 extends Thread{
 			System.out.println("스레드 처리 중 ...");
 			
 			/*//검사방법1 => 스레드의 인스턴스 객체용 메서드를 이용하는 방법 (인터럽트 걸리면 계속 걸려있는 상태임)
-			if(this.isInterrupted()) {//interrupt() 메서드가 호출되면 true(인터럽트가 걸렸는지 안걸렸는지 정보를 가져올 수 있음)
+			if(this.isInterrupted()) {//interrupt() 메서드가 호출되면 true(인터럽트가 걸렸는지 안걸렸는지 정보를 가져올 수 있음) (인스턴스 메서드를 활용)
 				System.out.println("인스턴스용 isInterrupted()");
 				break;//인터럽트 걸렸으면 끝내기(강제로 끝내버리면 duplicated와 같음)(외부에서 혹시 인터럽트 메서드 걸었으면 true값이 오며 반복을 빠져나감)
 			}*/
 			
 			//검사방법2 => 스레드의 정적 메서드를 이용하는 방법
-			if(Thread.interrupted()) {//interrupted() 가 호출되면 true(기존 인터럽트 설정값을 가져와서 그 반대로 돌려놓음. 두번 연달아 호출하면 반대로 나옴)
+			if(Thread.interrupted()) {//interrupted() 가 호출되면 true(기존 인터럽트 설정값을 가져와서 그 반대로 돌려놓음. 두번 연달아 호출하면 반대로 나옴) (static메서드 사용)한번 호출되고 나서 다시 디폴트 값으로 돌려놓음. 그래서 두번 사용하는 경우에는 false가 됨
 				System.out.println("정적 메서드 interrupted()");
 				break;
 			}
