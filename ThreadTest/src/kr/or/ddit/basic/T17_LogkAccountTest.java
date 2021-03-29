@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author 유은지
  *
  *Lock 기능을 제공하는 클래스
- *ReentrantLock : Read 및 Write 구분없이 사용하기 위한 락 클래스로 동기화 처리를 위해 사용됨. (락걸리면 끝 - 락을 해제할 때까지)
+ *ReentrantLock(리엔터런트) : Read 및 Write 구분없이 사용하기 위한 락 클래스로 동기화 처리를 위해 사용됨. (락걸리면 끝 - 락을 해제할 때까지)
  *(Synchronized를 이용한 동기화처리보다 부가적인 기능이 제공됨. ex)Fairness 설정 등)
  *
  *ReentrantReadWriteLock : Read 및 Write 락을 구분사요 사용 가능함.(Fair mode)

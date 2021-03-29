@@ -95,11 +95,11 @@ class Horse extends Thread implements Comparable<Horse>{
 				ex.printStackTrace();
 			}
 			
-			if(test==1) {
+			if(test==1) {//처음 시작일 때 무조건 출력
 				printLocation();
 			}
 			
-			if(rank==7) {
+			if(rank==7) {//랜덤으로 출력
 				test = (int)(Math.random() * 10) + 1;
 				printLocation();
 			}
@@ -107,7 +107,7 @@ class Horse extends Thread implements Comparable<Horse>{
 		
 		System.out.println("■" + name + "■ 도착했습니다 !!!");
 		rank = T16_homework_경마.ranks++;
-		T16_homework_경마.strRank += "[" + name + "," + rank + "등]\n";
+		T16_homework_경마.strRank += "[" + name + "," + rank + "등]\n"; //도착 시 누적시켜 한번에 출력하기 위함
 	}
 	
 	/*경마 출력 - 랜덤 출력 위해 현재 위치 정보 저장*/
