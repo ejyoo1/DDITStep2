@@ -31,9 +31,10 @@ public class TcpServer {
 		
 		//client에 메시지 보내기
 		//OutputStream  객체를 구성하여 전송한다.
-		//접속한 Socket의 getOutputStream()메서드를 이용하여 구한다.
+		//접속한 Socket의 getOutputStream()메서드를 이용하여 구한다. ==>바이트 기반
 		OutputStream out = socket.getOutputStream();//소켓을 가져옴. 상대방에게 보내고 싶을 때 output 상대방이 보낸 데이터를 가져오려면 inputstream 을 사용하여 read를 사용한다.
-		
+		//문자열로 전송하기 위해 DataOutputStream
+		//OutputStreamWriter도 가능(보조스트림 안쓸거면)
 		DataOutputStream dos = new DataOutputStream(out);//byte, int, float 등 맞는 형태로 처리하기 위해 보조스트림을 사용
 		dos.writeUTF("어서오세요 ...");//메시지 보내기 (문자열을 UTF8로 하려고)
 		System.out.println("메시지를 보냈습니다.");

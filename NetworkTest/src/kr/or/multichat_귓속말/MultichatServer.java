@@ -1,4 +1,4 @@
-package kr.or.multichat;
+package kr.or.multichat_귓속말;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -86,6 +86,20 @@ public class MultichatServer {
 		}
 	}
 	
+	/**
+	 * 대화방에서 Map에 저장된 유저 중 특정 유저에게 귓속말을 보내는 메서드
+	 * @author 유은지
+	 * @param from : 보낸사람
+	 * @param to : 받는사람
+	 */
+	public void sendMessage(String msg, String from, String to) {
+		try {
+			DataOutputStream dos = new DataOutputStream(clients.get(to).getOutputStream());//보낼사람의 소켓을 가져옴
+			dos.writeUTF("[" + from + "님의 귓속말]" + msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
@@ -118,6 +132,7 @@ public class MultichatServer {
 				name = dis.readUTF();//클라이언트를 시작하면 무조건 name 값을 가져올것이다 (약속!)
 				//대화명을 받아서 다른 모든 클라이언트에게 대화방 참여메시지를 보낸다.
 				sendMessage("#" + name + "님이 입장했습니다.");//접속되어있는 모든 사람들에게(Map<String,Socket>) str 값을 뿌리기 위함.(모든사람들에게 알림 전송) 
+				sendMessage("귓속말을 하려면 [\\w 닉네임 보낼메시지] 형식으로 입력하세요.");
 				
 				//대화명과 소켓정보를 Map에 저장한다.
 				clients.put(name, socket);//접속된 사람이므로 맵에 put 으로 등록 (K : name , V : socket)
@@ -125,7 +140,25 @@ public class MultichatServer {
 				//이 이후의 메시지 처리는 반복문으로 처리한다.
 				//한 클라이언트가 보낸 메시지를 다른 모든 클라이언트에게 보내준다.
 				while(dis != null) {//당연히 nll이 아님 (이렇게 한 이유는 클라이언트 소켓이 데이터를 보내면 서버에 보내야 하므로 대기해야함.) 
-					sendMessage(dis.readUTF(), name); //접속한 사람이 메시지를 보냈다면 sendMessage에서 뿌려줌
+					String userMessage = dis.readUTF();
+					System.out.println("구분:"+userMessage.indexOf("\\w"));
+					if(userMessage.indexOf("\\w")==0) {
+						System.out.println("귓속말 실행");
+						//귓속말 전용 데이터 분리
+						String[] userMessages = userMessage.split(" ");
+						int length = userMessages.length;
+						System.out.println("귓속말 보낼 사람 : " + userMessages[1]);
+						
+						String str = "";
+						for(int i = 2 ; i < length ; i++) {
+							str += userMessages[i] + " ";
+						}
+						System.out.println("귓속말 내용 : " + str);
+						
+						sendMessage(str, name, userMessages[1]);
+					}else {
+						sendMessage(userMessage, name); //접속한 사람이 메시지를 보냈다면 sendMessage에서 뿌려줌
+					}
 				}
 			}catch(IOException ex) {
 				ex.printStackTrace();
