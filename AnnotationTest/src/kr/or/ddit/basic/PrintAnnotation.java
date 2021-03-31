@@ -31,7 +31,7 @@ import javax.lang.model.element.Element;
  4. 요소의 타입에 타입 매개변수(지네릭타입문자)를 사용할 수 없다.
 */
 
-//annotation 선언 방법
+//메타 annotation 선언 방법
 @Target(ElementType.METHOD)	// annotation이 적용가능한 대상을 지정함. (타겟 정보를 메서드에 붙이겠다)
 @Retention(RetentionPolicy.RUNTIME) // 유지되는 기간(SOURCE,CLASS,RUNTIME). ==> default class (언제까지 어노테이션을 유지할것인지) ==> source : 컴파일 전 class:컴파일 시에만 runtime : 객체 생성에도유지(항상 존재한다) 
 public @interface PrintAnnotation {
