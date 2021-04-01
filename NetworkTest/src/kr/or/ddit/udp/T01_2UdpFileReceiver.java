@@ -25,7 +25,7 @@ public class T01_2UdpFileReceiver {
 		
 		DatagramSocket ds = new DatagramSocket(port);
 		FileOutputStream fos = null;	
-		fos = new FileOutputStream("d:/D_Other/ejyooFile.jpg");
+		fos = new FileOutputStream("d:/D_Other/bbb.jpg");
 		
 		DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
 		ds.receive(dp);//block되다가 Sender가 Start를 보냄 (byte배열로.)

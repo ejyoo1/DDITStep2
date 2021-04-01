@@ -19,7 +19,7 @@ public class T01_1UdpFileSender {
 		String serverIp = "127.0.0.1";
 		int port = 8888;
 		
-		File file = new File("d:/C_Lib/lion.png");//전송할 파일 정의
+		File file = new File("C:\\Users\\PC-19\\Desktop\\test.jpg");//전송할 파일 정의
 		
 		DatagramSocket ds = null;//소켓 변수 선언
 		if(!file.exists()) {//파일 없으면 종료
