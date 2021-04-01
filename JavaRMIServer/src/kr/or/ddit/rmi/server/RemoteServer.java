@@ -14,37 +14,54 @@ import kr.or.ddit.rmi.vo.TestVO;
 
 /**
  * RMI(Remote Method Invocation)
- * RMI용 서비스를 제공하는 객체는 RMI용 인터페이스를 구현하고
- * UnicastRemoteObject객체를 상속해서 작성한다.
+ * - 로컬 컴퓨터에서 원격 컴퓨터의 메서드를 호출하는 기술
+ * - 내부적으로는 TCP 방식의 소켓 프로그래밍이 돌고있는 것
+ * 
+ * 장점
+ * - 구현하기 쉽다
+ * - 신뢰성이 보장된다.
+ * - JAVA 플랫폼을 사용한다.
+ * 
+ * Skeleton(서버)
+ * - 소켓 연결을 통해 클라이언트 보조 객체(stub)에 보낸 요청을 받아서 실제 서비스 객체에 있는 메서드를 호출
+ * - 서비스 객체로부터 리턴값을 받아서 포장해서 다시 클라이언트 보조 객체(Stub)로 보낸다.
+ * 
+ * 방식
+ * - 클라이언트가 서버의 registry에 등록된 것을 lookup()으로 찾아낼 수 있다.
+ * - 찾아낸 정보를 가지고 클라이언트가 원격으로 호출할 수 있음(멀리있는 시스템에서 실행된 결과를 받아낼 수 있음)
+ * 
+ * RemoteServer 작성규칙
+ * - 무조건 public 이어야 한다.
+ * - RMI용 인터페이스를 구현해야 한다.
+ * -- RMI용 서비스를 제공하는 객체이기 때문
+ * - UnicastRemoteObject 클래스 상속받아야 한다.
+ * -- 해당 통신의 하부 구조를 일부 구현해주고 이 클래스가 객체의 직렬화를 만들어주기 때문
+ * - RemoteException 처리를 위해 디폴트 생성자 정의
+ * -- 상속받은 UnicastRemoteObject 생성자에서 해당 예외가 발생하기 때문
+ * 
+ * ==> RMI기술을 사용하여 RemoteServer가 만든 객체를 원격으로 보낸다. 
  * @author 유은지
- * RemoteServer가 만든 객체를 원격으로 보낼것임.
- * 인터페이스 구현 + unicastRemoteObject 필요.
- * RMI 기술을 이용한 원격 호출
  */
 public class RemoteServer extends UnicastRemoteObject implements RemoteInterface{//rmi용 클래스로 만듬(생성자, 인퍼테이스 구현 시 다른사람이 파일에 접근할 수 있는것임)
 
-	//이것이 필요한 이유는 
-	//이 객체를 생성자를 통해서 만드는데, RemoteException가 붙어있다.
-	//객체를 만드는 순간에도 RemoteException 발생할 수 있으니 Throws를 해야함.
-	//따라서 생성자가 필요한 것이다.
+	//RemoteServer를 생성자를 통해 만들 때, RemoteException이 발생할 수 있으므로 Throws를 한다.
 	protected RemoteServer() throws RemoteException {
 		super();
 	}
 	
 	public static void main(String[] args) {
-		//원격객체 처리(맨 마지막에 코드작성)
 		try {
-			//구현한 RMI용 객체를 클라이언트에서 사용할 수 있도록 RMI서버에 등록한다.
-			//1. RMI용 인터페이스를 구현한 객체 생성
+			//1. RMI용 인터페이스를 구현한 원격 객체 생성
 			RemoteInterface inf = new RemoteServer();
 			
 			//2. 구현한 객체를 클라이언트에서 찾을 수 있도록 Registry객체를 생성해서 등록한다.
+			//포트 번호를 지정하여 Registry객체 생성(기본포트값:1099) ==> 내가 원하는 포트번호를 담을 수 있음.
+			Registry reg = LocateRegistry.createRegistry(8888);
 			
-			//포트 번호를 지정하여 Registry객체 생성(기본포트:1099)
-			Registry reg = LocateRegistry.createRegistry(8888);//포트번호를 파라미터로 담아 넘겨준다.(내가 원하는 포트 번호)
-			
-			//Registry 서버에서 제공하고자 하는 객체등록
+			//3. Registry 서버에서 제공하고자 하는 객체등록
 			//형식) Registry객체변수.rebind("객체의 Alias", 객체);
+			//bind도 쓸 수 있으나 bind는 이미 bind되어 있으면 잘 안될 때가 있어서 확실한 rebind를 사용한다.
+			//아무것도 bind되지 않은 상태에서도 rebind 사용 가능
 			//rebind : 이전 객체가 있으면 덮어쓰기, 그렇지 않으면 새로 생성하는 특징
 			reg.rebind("server", inf);//원격으로 등록할 객체를 담아 "server"라는 이름으로 등록함.
 			

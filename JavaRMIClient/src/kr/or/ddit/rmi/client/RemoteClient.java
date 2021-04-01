@@ -12,6 +12,11 @@ import kr.or.ddit.rmi.vo.FileInfoVO;
 import kr.or.ddit.rmi.vo.TestVO;
 
 /**
+ * Stub(클라이언트)
+ * - 실제 통신작업을 처리하는 객체
+ * - 소켓 및 스트림과 관련된 작업을 처리
+ * - 클라이언트에서 호출하려고 하는 메소드들을 가지고 있는 객체인척 하는 객체
+ * 
  * 원격객체를 받아 실행
  * 클라이언트 쪽의 프로젝트에도 서버의 패키지와 같은 구조로 Interface와 VO파일이 있어야 한다.
  * @author 유은지
