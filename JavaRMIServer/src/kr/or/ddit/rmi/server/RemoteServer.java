@@ -34,6 +34,7 @@ import kr.or.ddit.rmi.vo.TestVO;
  * - 무조건 public 이어야 한다.
  * - RMI용 인터페이스를 구현해야 한다.
  * -- RMI용 서비스를 제공하는 객체이기 때문
+ * -- 구현하는 이유 : 클라이언트가 RMI용 인터페이스를 갖고있기 때문
  * - UnicastRemoteObject 클래스 상속받아야 한다.
  * -- 해당 통신의 하부 구조를 일부 구현해주고 이 클래스가 객체의 직렬화를 만들어주기 때문
  * - RemoteException 처리를 위해 디폴트 생성자 정의
@@ -45,7 +46,7 @@ import kr.or.ddit.rmi.vo.TestVO;
 public class RemoteServer extends UnicastRemoteObject implements RemoteInterface{//rmi용 클래스로 만듬(생성자, 인퍼테이스 구현 시 다른사람이 파일에 접근할 수 있는것임)
 
 	//RemoteServer를 생성자를 통해 만들 때, RemoteException이 발생할 수 있으므로 Throws를 한다.
-	protected RemoteServer() throws RemoteException {
+	protected RemoteServer() throws RemoteException {//UnicastRemoteObject를 상속받아서 RemoteException 처리를 해야함.
 		super();
 	}
 	

@@ -10,6 +10,7 @@ import java.io.Serializable;
  * - 따라서 Serializable을 구현해야 한다.
  * -- Serializable: Marker Interface(메서드 하나도 없고 단지 표식만 하는 역할)
  * 
+ * --VO는 클라이언트와 서버와 동일해야함(그래야 오류 안남)
  * @author 유은지
  */
 public class TestVO implements Serializable {

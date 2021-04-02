@@ -34,7 +34,7 @@ public class MultichatServer {
 				//소켓은 서버소켓과 클라이언트 소켓(클라이언트에서 new 해서 뭔가 한것) 한 세트로 이루어짐.
 				
 				System.out.println("[" + socket.getInetAddress() + " : " + socket.getPort() + "] 에서 접속하였습니다.");
-				
+				//socket.getPort()는 7777이 아닐 수 있음. 실행할 때마다 56908, 57472, 57479 이렇게 다르게 나왔음.
 				//메시지를 전송 처리하는 스레드 생성 및 실행
 				ServerReceiver receiver = new ServerReceiver(socket);//내부클래스 파라미터로 넣고(이것은 들어온 사람만큼 생성됨) 그래야 사람수만큼 채팅을 보낼 수 있으므로.
 				receiver.start();//시작한뒤 위의 accept() 으로 인해 대기 (이것 반복)
@@ -94,6 +94,7 @@ public class MultichatServer {
 	 */
 	public void sendMessage(String msg, String from, String to) {
 		try {
+			//가져올 소켓이 없는 사람일 때, 처리가 누락됨.
 			DataOutputStream dos = new DataOutputStream(clients.get(to).getOutputStream());//보낼사람의 소켓을 가져옴
 			dos.writeUTF("[" + from + "님의 귓속말]" + msg);
 		} catch (IOException e) {
@@ -145,9 +146,10 @@ public class MultichatServer {
 					if(userMessage.indexOf("\\w")==0) {
 						System.out.println("귓속말 실행");
 						//귓속말 전용 데이터 분리
-						String[] userMessages = userMessage.split(" ");
+						String[] userMessages = userMessage.split(" ");//split 시 횟수 조절 가능 split(" ",3);
 						int length = userMessages.length;
 						System.out.println("귓속말 보낼 사람 : " + userMessages[1]);
+						//여기에 귓속말 보낼 사람이 유효한지 검사가 필요함(현재 미구현)
 						
 						String str = "";
 						for(int i = 2 ; i < length ; i++) {

@@ -23,12 +23,14 @@ import java.util.StringTokenizer;
  * HTTP 요청(응답) 메시지 구조 : RequestLine/StatusLine Header EmptyLine Body
  * - RequestLine : GET /restapi/v1.0 HTTP/1.1 [메소드 /경로 버전] ==> [전송방식 /접근할리소스위치 HTTP버전]
  * - Status Line : HTTP/1.1 200 OK (200 : HTTP 상태코드)
- * - Header : 헤더 정보를 의미함
- * - Empty Line : 공백(빈줄)을 의미하고, Header Body를 분리해주는 역할을 함
+ * - Header : 헤더 정보를 의미함(몇줄 들어갈지는 모름) response 시 contentType을 보냄(마인타임-text인지 html인지 json인지)
+ * - Empty Line : 공백(빈줄)을 의미하고, Header Body를 분리해주는 역할을 함(HTTP 프로토콜이 요구하는 양식이기에 지켜야 함.)
  * - Body : 보내거나 받고자 하는 실제 데이터를 의미함 (메서드가 Get등의 경우에는 요청시 Body부분 생략 가능함. ==> 헤더에이미 데이터가 존재해서)
  * OSI 7계층은 분리된것이 아니라 아래에서 위로 갔을 때 위에 있는 계층은 아래있는 계층을 모두 포함하는 개념이다.
  * 따라서 HTTP프로토콜이 속한 계층은 TCP 즉 전송계층보다 위에있으므로
  * HTTP TCP라고 할 수 있다. 
+ * 
+ * HTTP 프로토콜로 응답데이터를 파싱해서 CSS,JavaScript 웹 애플리케이션을 실행하기 위해 양식은 지켜야함.
  */
 public class MyHTTPServer {
 	private final int port = 80;

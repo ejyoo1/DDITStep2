@@ -7,6 +7,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
+ * 이전에는 xml 파일을 많이 사용했다. ==> 치명적인 단점 : 뭘 의미하는 설정인지 태그로 감싸주어야 한다.<test>양식</test> ==> 바이트 단위로 데이터를 쏴서 용량이 커지게 됨 ==> 네트웍 환경을 많이 탐. ==> 속도 저하.
+ * 따라서 이러한 xml의 단점으로 인해 그것을 극복하기 위해서 JSON을 사용한다.
  * JSON 파싱 기능을 자바에서 제공하지 않아서 파싱해주는 라이브러리 중 하나인 simplejson.jar을 사용한다.
  * @author 유은지
  * JSON : JavaScript Object Notation
@@ -57,6 +59,6 @@ public class JSONSimpleWriterTest {
 		fw.flush();//혹시 남은 것이 있을 수 있으니 남은것까지 탈탈 털어 넣음
 		fw.close();//파일 쓰기 종료
 		
-		System.out.println("JSON객체 내용 출력 : " + jsonObj);//어떤 데이터가 들어갔는지 JSONObj 출력
+		System.out.println("JSON객체 내용 출력 : " + jsonObj);//어떤 데이터가 들어갔는지 JSONObj 출력(순서가 다르게 나올 수 있음)
 	}
 }
