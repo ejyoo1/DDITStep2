@@ -21,6 +21,7 @@ import org.json.simple.parser.ParseException;
  * (생명산업인 낙농산업의 특성을 살려 학생들에게 농업, 노동, 생명, 음식에 대한 교육적 기능을 제공함으로써
  * 우유생산, 유통, 소비 이르는 전 과정에 대한 이해와 직접적 경험을 할 수 있는 
  * 학교 교육과 연계된 교육 프로그램을 실시할 수 있는 목장정보)
+ * https://data.mafra.go.kr/opendata/data/indexOpenDataDetail.do?data_id=20170914000000000816&filter_ty=L&getBack=&sort_id=regist_dt&s_data_nm=%EB%86%8D%EC%9E%A5&instt_id=&cl_code=&shareYn=
  * 
  * 키워드 : 체험목장, 농가체험, 젖소
  * @author macween
