@@ -34,7 +34,7 @@ public class JsonSimpleReadExam4 {
 	private String apiUrl 		= "Grid_20150407000000000218_1";  //openAPI 서비스 URL
 	private String startIndex 	= "1";  	//요청 시작 위치
 	private String endIndex 	= "1000";		//요청 종료 위치
-	private String area			= "전라";		// 지역(필수)
+	private String area			= "충청";		// 지역(필수)
 	private String farmNm		= "다래목장";	// 목장명(선택)
 
 	/**
@@ -77,6 +77,7 @@ public class JsonSimpleReadExam4 {
 	public void start() throws IOException, ParseException { //이 로직은 갖고totalCnt가
 		//갖고오고자 하는 JSON 데이터의 전체 개수 구하고 자료 읽어오기
 		JSONObject jsonfile = getJSONObject();//JSON 데이터 자료 가져옴
+		System.out.println(jsonfile);
 		
 		JSONObject rootObj = (JSONObject) jsonfile.get(apiUrl);//JSON 객체에 저장된 apiURL 가져옴 ==> Grid_20200114000000000604_1
 		System.out.println("JSON DATA Text : " + rootObj);
