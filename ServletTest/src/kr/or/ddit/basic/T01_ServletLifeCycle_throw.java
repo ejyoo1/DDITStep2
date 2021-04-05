@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * WEB-INF : lib 는 외부에서 참조해서 사용하는 라이브러리를 이 폴더에 넣어야 인식한다.
  * WEB-INF : classes(클래스 Path가 모여있는 곳)
  */
-public class T01_ServletLifeCycle extends HttpServlet { //http 프로토콜을 사용하는 클래스
+public class T01_ServletLifeCycle_throw extends HttpServlet { //http 프로토콜을 사용하는 클래스
 	
 	@Override
 	public void init() throws ServletException{
@@ -42,6 +42,7 @@ public class T01_ServletLifeCycle extends HttpServlet { //http 프로토콜을 �
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//메서드 방식이 get인 경우 호출됨
 		System.out.println("doGet() 호출됨.");
+		throw new ServletException("서블릿 예외 발생했어여!!");
 	}
 	
 	@Override
