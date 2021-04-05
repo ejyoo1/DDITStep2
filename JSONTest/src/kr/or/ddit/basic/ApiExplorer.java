@@ -1,6 +1,5 @@
 package kr.or.ddit.basic;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 /* Java 샘플 코드 */
@@ -9,81 +8,95 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
+import java.util.Iterator;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class ApiExplorer {
-	//http://api.data.go.kr/openapi/tn_pubr_public_frhl_exprn_vilage_api?
-	//serviceKey=BpcJg%2Fn8YOcDavHhvF4u1hffBqdWIxXN7qgKC4QwKYbq%2BlGK9WkiORULVOKAXom9GnHQ5eQAGtbgquZ73cPsjQ%3D%3D
-	//&pageNo=1
+	private static String dataUrl 		= "http://api.data.go.kr/openapi/tn_pubr_public_frhl_exprn_vilage_api";
+	private static String serviceKey   	= "BpcJg%2Fn8YOcDavHhvF4u1hffBqdWIxXN7qgKC4QwKYbq%2BlGK9WkiORULVOKAXom9GnHQ5eQAGtbgquZ73cPsjQ%3D%3D";
+	private static String pageNo 		= "1";
+	private static String numOfRows		= "100";
+	private static String type			= "json";
+	
+	//http://api.data.go.kr/openapi/tn_pubr_public_frhl_exprn_vilage_api
+	//?serviceKey=BpcJg%2Fn8YOcDavHhvF4u1hffBqdWIxXN7qgKC4QwKYbq%2BlGK9WkiORULVOKAXom9GnHQ5eQAGtbgquZ73cPsjQ%3D%3D
+	//&pageNo=0
 	//&numOfRows=100
 	//&type=json
-    public static void main(String[] args) throws IOException, ParseException {
-        StringBuilder urlBuilder = new StringBuilder("http://api.data.go.kr/openapi/tn_pubr_public_frhl_exprn_vilage_api"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=BpcJg%2Fn8YOcDavHhvF4u1hffBqdWIxXN7qgKC4QwKYbq%2BlGK9WkiORULVOKAXom9GnHQ5eQAGtbgquZ73cPsjQ%3D%3D"); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); /*한 페이지 결과 수*/
-        urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*XML/JSON 여부*/
-//        urlBuilder.append("&" + URLEncoder.encode("exprnVilageNm","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*체험마을명*/
-//        urlBuilder.append("&" + URLEncoder.encode("ctprvnNm","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*시도명*/
-//        urlBuilder.append("&" + URLEncoder.encode("signguNm","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*시군구명*/
-//        urlBuilder.append("&" + URLEncoder.encode("exprnSe","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*체험프로그램구분*/
-//        urlBuilder.append("&" + URLEncoder.encode("exprnCn","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*체험프로그램명*/
-//        urlBuilder.append("&" + URLEncoder.encode("holdFclty","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*보유시설정보*/
-//        urlBuilder.append("&" + URLEncoder.encode("exprnAr","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*체험휴양마을면적*/
-//        urlBuilder.append("&" + URLEncoder.encode("exprnPicUrl","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*체험휴양마을사진*/
-//        urlBuilder.append("&" + URLEncoder.encode("rdnmadr","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*소재지도로명주소*/
-//        urlBuilder.append("&" + URLEncoder.encode("rprsntvNm","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*대표자성명*/
-//        urlBuilder.append("&" + URLEncoder.encode("phoneNumber","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*대표전화번호*/
-//        urlBuilder.append("&" + URLEncoder.encode("appnDate","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*지정일자*/
-//        urlBuilder.append("&" + URLEncoder.encode("homepageUrl","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*홈페이지주소*/
-//        urlBuilder.append("&" + URLEncoder.encode("institutionNm","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*관리기관명*/
-//        urlBuilder.append("&" + URLEncoder.encode("latitude","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*위도*/
-//        urlBuilder.append("&" + URLEncoder.encode("longitude","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*경도*/
-//        urlBuilder.append("&" + URLEncoder.encode("referenceDate","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*데이터기준일자*/
-//        urlBuilder.append("&" + URLEncoder.encode("instt_code","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*제공기관코드*/
-//        urlBuilder.append("&" + URLEncoder.encode("instt_nm","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*제공기관기관명*/
-        URL url = new URL(urlBuilder.toString());
-        System.out.println("url : " + url);//세팅한 URL확인 
+
+	public static void main(String[] args) throws IOException, ParseException {
+        
+        
+        URL url = new URL(dataUrl 
+        		+ "?serviceKey=" + serviceKey
+        		+ "&pageNo=" + pageNo
+        		+ "&numOfRows=" + numOfRows
+        		+ "&type=" + type);
+        System.out.println("세팅한 URL 확인 : " + url.toString());//세팅한 URL확인 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
         System.out.println("Response code: " + conn.getResponseCode());//출력코드 가져옴 
         
-        JSONParser parser = new JSONParser(); // JSON 객체 생성 
-        Object obj = parser.parse(new InputStreamReader(conn.getInputStream()));
         
-        JSONObject jsonfile = (JSONObject)obj;
-        System.out.println("JSON FILE : " + jsonfile);
-        
-        JSONObject rootObj1 = (JSONObject)jsonfile.get("response");
-        System.out.println("JSON DATA Text1 : " + rootObj1);
-        
-        //header 가져오고
-        //body 가져오고 난 다음 전체 데이터수 출력 
-        
-        long totalCnt = (long)rootObj1.get("totalCnt");
-        System.out.println("전체 데이터 수 : " + totalCnt);
-        
-        
-        BufferedReader rd;
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {//출력코드가 정상이면 
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        	JSONParser parser = new JSONParser(); // JSON 객체 생성 
+        	Object obj = parser.parse(new InputStreamReader(conn.getInputStream()));
+        	
+        	JSONObject jsonfile = (JSONObject)obj;
+        	System.out.println("JSON FILE : " + jsonfile);
+        	
+        	JSONObject rootObj1 = (JSONObject)jsonfile.get("response");
+        	System.out.println("JSON DATA Text1 : " + rootObj1);
+        	
+        	//body 가져오기 ==> json 객체라 또 다시 가져옴
+        	JSONObject jsonfile2 = (JSONObject)rootObj1.get("body");
+        	System.out.println("JSON DATA Text2 : " + jsonfile2);
+        	
+        	//body 가져오고 난 다음 전체 데이터수 출력 
+        	System.out.println("전체 데이터 수 : " + jsonfile2.get("totalCount"));
+//      String totalCnt = (String)jsonfile2.get("totalCount");//long으로 캐스팅 불가능..
+        	
+        	//items 가져오기 ==> items 가 JSON 배열임.
+        	JSONArray list = (JSONArray)jsonfile2.get("items");
+        	System.out.println("JSON DATA Text3 : " + list);
+        	
+        	Iterator<JSONObject> it = list.iterator();
+        	
+        	while(it.hasNext()) {
+        		JSONObject tempJson = it.next();
+        		
+        		System.out.println("체험마을명(exprnVilageNm) : " 		+ tempJson.get("exprnVilageNm"));
+				System.out.println("시도명(ctprvnNm) : " 				+ tempJson.get("ctprvnNm"));
+				System.out.println("시군구명(signguNm) : " 			+ tempJson.get("signguNm"));
+				System.out.println("체험프로그램구분(exprnSe) : " 		+ tempJson.get("exprnSe"));
+				System.out.println("체험프로그램명(exprnCn) : " 		+ tempJson.get("exprnCn"));
+				System.out.println("보유시설정보(holdFclty) : " 		+ tempJson.get("holdFclty"));
+				System.out.println("체험휴양마을면적(exprnAr) : " 		+ tempJson.get("exprnAr"));
+				System.out.println("체험휴양마을사진(exprnPicUrl) : " 	+ tempJson.get("exprnPicUrl"));
+				System.out.println("소재지도로명주소(rdnmadr) : " 		+ tempJson.get("rdnmadr"));
+				System.out.println("대표자성명(rprsntvNm) : " 			+ tempJson.get("rprsntvNm"));
+				System.out.println("대표전화번호(phoneNumber) : " 		+ tempJson.get("phoneNumber"));
+				System.out.println("지정일자(appnDate) : " 			+ tempJson.get("appnDate"));
+				System.out.println("홈페이지주소(homepageUrl) : " 		+ tempJson.get("homepageUrl"));
+				System.out.println("관리기관명(institutionNm) : " 		+ tempJson.get("institutionNm"));
+				System.out.println("위도(latitude) : " 				+ tempJson.get("latitude"));
+				System.out.println("경도(longitude) : " 				+ tempJson.get("longitude"));
+				System.out.println("데이터기준일자(referenceDate) : " 	+ tempJson.get("referenceDate"));
+				System.out.println("제공기관코드(instt_code) : " 		+ tempJson.get("insttCode"));//_있는것은 첫글자 대문자
+				System.out.println("제공기관기관명(instt_nm) : " 		+ tempJson.get("insttNm"));//_있는것은 첫글자 대문자
+
+				System.out.println("-------------------------");
+        	}
         } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        	//실패
+        	System.out.println("실패");
         }
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
         conn.disconnect();
-        System.out.println(sb.toString());
-        
     }
 }
