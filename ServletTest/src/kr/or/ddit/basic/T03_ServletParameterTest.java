@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 요청 객체로부터 파라미터 데이터 가져오는 방법
- * (참고)데이터 주고받을 떄 형식이 바이너리, 문자형태이다.(내부적으로 직렬화 일어남)
+ * (참고)데이터 주고받을 떄 형식이 바이너리, 문자형태이다.(내부적으로 직렬화 일어난다.)
  * 
  * - getParameter(파라미터명) : 파라미터값이 한 개의 스트링 값을 가져올 때 사용함
  * - getParameterValues() : 파라미터 값이 여러개인 경우.
  * 							ex) checkbox
- * - getParameterNames() : request에 존재하는 모든 파라미터 정보를 가져올 때 사용함.(사용자가 뭘 던졌는지 알기위해)
+ * - getParameterNames() : request에 존재하는 모든 파라미터 정보를 가져올 때 사용함.(사용자가 뭘 던졌는지 알고싶을 때 사용)
  * @author 유은지
  *
  */

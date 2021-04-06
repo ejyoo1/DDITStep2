@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  * 개발자가 예외발생 시 보여주는 화면
  * @author 유은지
  *
+ * - req.setAttribute("K","V"); ==> req.getAttrigute("K")
+ * - setAttribute 시 톰캣이 HttpServletRequest에 추가해준다.
  */
 public class T04_ErrorHandler extends HttpServlet{
 	
@@ -24,12 +26,6 @@ public class T04_ErrorHandler extends HttpServlet{
 		// 예외객체
 		Throwable throwable = (Throwable) 
 				req.getAttribute("javax.servlet.error.exception");
-		/*
-		 req.setAttribute("abc", "cdf");
-		 System.out.println(req.getAttribute("abc"));
-		 //setAttribute를 하면 나중에 getAttribute를 해서 언제든지 가져올 수 있음.
-		  * setAttribute하면 톰캣이 알아서 HttpServletRequest에 추가해준다.
-		 */
 		
 		// 에러 상태 코드
 		Integer statusCode = (Integer) 
@@ -69,14 +65,14 @@ public class T04_ErrorHandler extends HttpServlet{
 					+ "http://localhost/ServletTest/"
 					+ "\">홈페이지</a>");
 		}else if(statusCode != null) {
-			out.println("상태코드 : " + statusCode);
+			out.println("■상태코드■ ==> " + statusCode);
 		}else {
 			out.println("<h2>예외/에러 정보</h2>");
-			out.println("서블릿 이름 : " + servletName + "<br><br>");
-			out.println("예외 타입 : " + throwable.getClass().getName() 
+			out.println("■서블릿 이름■ ==> " + servletName + "<br><br>");
+			out.println("■예외 타입■ ==> " + throwable.getClass().getName() 
 					+ "<br><br>");
-			out.println("요청 URI : " + requestUri + "<br><br>");
-			out.println("예외 메시지 : " + throwable.getMessage());
+			out.println("■요청 URI■ ==> " + requestUri + "<br><br>");
+			out.println("■예외 메시지■ ==> " + throwable.getMessage());
 		}
 		out.println("</body>");
 		out.println("</html>");
