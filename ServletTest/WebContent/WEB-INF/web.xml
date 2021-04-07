@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
-  <!-- localhost/ServletText/T01_ServletLifeCycleURL -->
-  <display-name>ServletTest</display-name><!-- 웹 어플리케이션 간(프로젝트) 구분 URL contextPath(Root) : 컨텍스트 경로 -->
-  <servlet><!-- 첫번째 서블릿을 등록만 -->
-  	<servlet-name>T01_ServletLifeCycle</servlet-name><!-- 서블릿 이름정보 설정(자유)  -->
-  	<servlet-class>kr.or.ddit.basic.T01_ServletLifeCycle</servlet-class><!-- 실제 path. 컨트롤 클릭 시 이동하면 정상적으로 작성한 것임.(정확하게 작성) -->
+  <display-name>ServletTest</display-name>
+  
+  <servlet>
+  	<servlet-name>T01_ServletLifeCycle</servlet-name>
+  	<servlet-class>kr.or.ddit.basic.T01_ServletLifeCycle</servlet-class>
   	<load-on-startup>1</load-on-startup>
   </servlet>
   
-  <servlet-mapping><!-- 브라우저를 기반으로 URL 설정하여 실행함. => 서버(톰캣)에서 파싱 가능하도록 세팅해야 함. -->
+  <servlet-mapping>
   	<servlet-name>T01_ServletLifeCycle</servlet-name>
-  	<url-pattern>/T01_ServletLifeCycleURL</url-pattern><!-- 이 URL을 입력 시 서버에서 RequestLine에 있는 URL을 파싱해서 servlet-name을 실행하도록 매핑함.-->
+  	<url-pattern>/T01_ServletLifeCycle</url-pattern>
   </servlet-mapping>
   
-  
-  <!-- 두번째 파일 -->
   <servlet>
   	<servlet-name>T02_ServletTest</servlet-name>
   	<servlet-class>kr.or.ddit.basic.T02_ServletTest</servlet-class>
@@ -22,18 +20,13 @@
   
   <servlet-mapping>
   	<servlet-name>T02_ServletTest</servlet-name>
-  	<url-pattern>/T02_ServletTestURL</url-pattern><!-- 서블릿 패스 (개발한 서블릿 객체)-->
+  	<url-pattern>/T02_ServletTest</url-pattern>
   </servlet-mapping>
   
-  
-  <!-- 세번째 파일 서블릿 호출 시점 작업 설정 
-  default : 사용자 요청할 때만
-  load-on-startup : 사용자 요청 없이 톰캣이 시작될 때, 로딩되는 시점에 이 서블릿을 실행해라.
-  -->
   <servlet>
   	<servlet-name>T03_ServletParameterTest</servlet-name>
   	<servlet-class>kr.or.ddit.basic.T03_ServletParameterTest</servlet-class>
-<!--   	<load-on-startup>1</load-on-startup>톰캣(서버)가 시작할 때, 로딩되는 시점에(구동될 때) 실행 (우선순위를 숫자로 설정) -->
+  	
   </servlet>
   
   <servlet-mapping>
@@ -42,45 +35,11 @@
   </servlet-mapping>
   
   
-  <!-- 네번째 파일 : 에러 발생했을 때만 처리할 서블릿 (서블릿 등록,에러페이지 설정)-->
-  
-  <servlet><!-- 첫번째 서블릿을 등록만 -->
-  	<servlet-name>T01_ServletLifeCycle_throw</servlet-name><!-- 서블릿 이름정보 설정(자유)  -->
-  	<servlet-class>kr.or.ddit.basic.T01_ServletLifeCycle_throw</servlet-class><!-- 실제 path. 컨트롤 클릭 시 이동하면 정상적으로 작성한 것임.(정확하게 작성) -->
-  	<load-on-startup>1</load-on-startup>
-  </servlet>
-  
-  <servlet-mapping><!-- 브라우저를 기반으로 URL 설정하여 실행함. => 서버(톰캣)에서 파싱 가능하도록 세팅해야 함. -->
-  	<servlet-name>T01_ServletLifeCycle_throw</servlet-name>
-  	<url-pattern>/T01_ServletLifeCycle_throwURL</url-pattern><!-- 이 URL을 입력 시 서버에서 RequestLine에 있는 URL을 파싱해서 servlet-name을 실행하도록 매핑함.-->
-  </servlet-mapping>
-  
-  
-  
-  
   <servlet>
   	<servlet-name>ErrorHandler</servlet-name>
   	<servlet-class>kr.or.ddit.basic.T04_ErrorHandler</servlet-class>
   </servlet>
   
-  <servlet-mapping>
-  	<servlet-name>ErrorHandler</servlet-name>
-  	<url-pattern>/ErrorHandler</url-pattern>
-  </servlet-mapping>
-  
-  <error-page>
-  	<exception-type>javax.servlet.ServletException</exception-type><!-- 예외 Exception 지정 -->
-  	<location>/ErrorHandler</location><!-- ServletException 발생 시 이 위치로 이동 -->
-  </error-page>
-  
-  <error-page>
-  	<error-code>404</error-code><!-- 에러코드 404 지정 -->
-  	<location>/ErrorHandler</location><!-- 404에러 발생 시 이 위치로 이동 -->
-  </error-page>
-  
-  
-  
-  <!-- 다섯번째 클래스 파일 -->
   <servlet>
   	<servlet-name>T05_ServletCookieTest</servlet-name>
   	<servlet-class>kr.or.ddit.basic.T05_ServletCookieTest</servlet-class>
@@ -88,10 +47,16 @@
   
   <servlet-mapping>
   	<servlet-name>T05_ServletCookieTest</servlet-name>
-  	<url-pattern>/T05_ServletCookieTestURL</url-pattern>
+  	<url-pattern>/T05_ServletCookieTest</url-pattern>
   </servlet-mapping>
   
-  <!-- 여섯번째 클래스 파일 -->
+  
+  <servlet-mapping>
+  	<servlet-name>ErrorHandler</servlet-name>
+  	<url-pattern>/ErrorHandler</url-pattern>
+  </servlet-mapping>
+  
+  
   <servlet>
   	<servlet-name>T06_ServletSessionTest</servlet-name>
   	<servlet-class>kr.or.ddit.basic.T06_ServletSessionTest</servlet-class>
@@ -99,6 +64,108 @@
   
   <servlet-mapping>
   	<servlet-name>T06_ServletSessionTest</servlet-name>
-  	<url-pattern>/T06_ServletSessionTestURL</url-pattern>
+  	<url-pattern>/T06_ServletSessionTest</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>T08_ServletContextListenerTest</servlet-name>
+  	<servlet-class>kr.or.ddit.basic.T08_ServletContextListenerTest</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>T08_ServletContextListenerTest</servlet-name>
+  	<url-pattern>/T08_ServletContextListenerTest</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>T09_ServletRequestListenerTest</servlet-name>
+  	<servlet-class>kr.or.ddit.basic.T09_ServletRequestListenerTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>T09_ServletRequestListenerTest</servlet-name>
+  	<url-pattern>/T09_ServletRequestListenerTest</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>T10_ServletSessionListenerTest</servlet-name>
+  	<servlet-class>kr.or.ddit.basic.T10_ServletSessionListenerTest</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>T10_ServletSessionListenerTest</servlet-name>
+  	<url-pattern>/T10_ServletSessionListenerTest</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  <!-- 리스너 등록 -->
+  <listener>
+  	<display-name>MyServletContextListener</display-name>
+  	<listener-class>kr.or.ddit.basic.MyServletContextListener</listener-class>
+  </listener>
+  
+  <listener>
+  	<display-name>MyServletRequestListener</display-name>
+  	<listener-class>kr.or.ddit.basic.MyServletRequestListener</listener-class>
+  </listener>
+  
+  <listener>
+  	<display-name>MySessionAttributeListener</display-name>
+  	<listener-class>kr.or.ddit.basic.MySessionAttributeListener</listener-class>
+  </listener>
+  
+  
+  <filter>
+  	<filter-name>CustomEncoding</filter-name>
+  	<filter-class>kr.or.ddit.filter.CustomEncoding</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>CustomEncoding</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <filter>
+  	<filter-name>T07_ServletFilter</filter-name>
+  	<filter-class>kr.or.ddit.basic.T07_ServletFilter</filter-class>
+  	<init-param>
+  		<param-name>init-param</param-name>
+  		<param-value>필터 정상 작동됩니다.</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>T07_ServletFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  
+  <filter>
+  	<filter-name>T07_ServletFilter2</filter-name>
+  	<filter-class>kr.or.ddit.basic.T07_ServletFilter2</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>T07_ServletFilter2</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  
+  
+  
+  <error-page>
+  	<exception-type>javax.servlet.ServletException</exception-type>
+  	<location>/ErrorHandler</location>
+  </error-page>
+  
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/ErrorHandler</location>
+  </error-page>
+  
+  
+  
+  
+  
+  
+  
+  
 </web-app>

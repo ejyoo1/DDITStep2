@@ -16,19 +16,18 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- * 공공데이터 파싱 https://www.data.go.kr/iim/api/selectAPIAcountView.do
- * 전국농어촌체험휴양마을표준데이터
+ * 공공데이터 파싱 - 전국CCTV표준데이터
  * @author 유은지
  *
  */
-public class ApiExplorer {
-	private static String dataUrl 		= "http://api.data.go.kr/openapi/tn_pubr_public_frhl_exprn_vilage_api";
+public class ApiExplorer3 {
+	private static String dataUrl 		= "http://api.data.go.kr/openapi/tn_pubr_public_cctv_api";
 	private static String serviceKey   	= "BpcJg%2Fn8YOcDavHhvF4u1hffBqdWIxXN7qgKC4QwKYbq%2BlGK9WkiORULVOKAXom9GnHQ5eQAGtbgquZ73cPsjQ%3D%3D";
-	private static String pageNo 		= "1";
+	private static String pageNo 		= "0";
 	private static String numOfRows		= "100";
 	private static String type			= "json";
 	
-	//http://api.data.go.kr/openapi/tn_pubr_public_frhl_exprn_vilage_api
+	//http://api.data.go.kr/openapi/tn_pubr_public_cctv_api
 	//?serviceKey=BpcJg%2Fn8YOcDavHhvF4u1hffBqdWIxXN7qgKC4QwKYbq%2BlGK9WkiORULVOKAXom9GnHQ5eQAGtbgquZ73cPsjQ%3D%3D
 	//&pageNo=0
 	//&numOfRows=100
@@ -79,25 +78,21 @@ public class ApiExplorer {
         	while(it.hasNext()) {
         		JSONObject tempJson = it.next();
         		
-        		System.out.println("체험마을명(exprnVilageNm) : " 		+ tempJson.get("exprnVilageNm"));
-				System.out.println("시도명(ctprvnNm) : " 				+ tempJson.get("ctprvnNm"));
-				System.out.println("시군구명(signguNm) : " 			+ tempJson.get("signguNm"));
-				System.out.println("체험프로그램구분(exprnSe) : " 		+ tempJson.get("exprnSe"));
-				System.out.println("체험프로그램명(exprnCn) : " 		+ tempJson.get("exprnCn"));
-				System.out.println("보유시설정보(holdFclty) : " 		+ tempJson.get("holdFclty"));
-				System.out.println("체험휴양마을면적(exprnAr) : " 		+ tempJson.get("exprnAr"));
-				System.out.println("체험휴양마을사진(exprnPicUrl) : " 	+ tempJson.get("exprnPicUrl"));
-				System.out.println("소재지도로명주소(rdnmadr) : " 		+ tempJson.get("rdnmadr"));
-				System.out.println("대표자성명(rprsntvNm) : " 			+ tempJson.get("rprsntvNm"));
-				System.out.println("대표전화번호(phoneNumber) : " 		+ tempJson.get("phoneNumber"));
-				System.out.println("지정일자(appnDate) : " 			+ tempJson.get("appnDate"));
-				System.out.println("홈페이지주소(homepageUrl) : " 		+ tempJson.get("homepageUrl"));
-				System.out.println("관리기관명(institutionNm) : " 		+ tempJson.get("institutionNm"));
-				System.out.println("위도(latitude) : " 				+ tempJson.get("latitude"));
-				System.out.println("경도(longitude) : " 				+ tempJson.get("longitude"));
-				System.out.println("데이터기준일자(referenceDate) : " 	+ tempJson.get("referenceDate"));
-				System.out.println("제공기관코드(instt_code) : " 		+ tempJson.get("insttCode"));//_있는것은 첫글자 대문자
-				System.out.println("제공기관기관명(instt_nm) : " 		+ tempJson.get("insttNm"));//_있는것은 첫글자 대문자
+        		System.out.println("관리기관명(institutionNm) : " 				+ tempJson.get("institutionNm"));
+				System.out.println("소재지도로명주소(rdnmadr) : " 				+ tempJson.get("rdnmadr"));
+				System.out.println("소재지지번주소(lnmadr) : " 					+ tempJson.get("lnmadr"));
+				System.out.println("설치목적구분(installationPurpsType) : " 	+ tempJson.get("installationPurpsType"));
+				System.out.println("카메라대수(cctvNumber) : " 				+ tempJson.get("cctvNumber"));
+				System.out.println("카메라화소수(cctvPixel) : " 				+ tempJson.get("cctvPixel"));
+				System.out.println("촬영방면정보(potogrfInfo) : " 				+ tempJson.get("potogrfInfo"));
+				System.out.println("보관일수(cstdyDay) : " 					+ tempJson.get("cstdyDay"));
+				System.out.println("설치년월(installationYymm) : " 			+ tempJson.get("installationYymm"));
+				System.out.println("관리기관전화번호(phoneNumber) : " 			+ tempJson.get("phoneNumber"));
+				System.out.println("위도(latitude) : " 						+ tempJson.get("phoneNumber"));
+				System.out.println("경도(longitude) : " 						+ tempJson.get("longitude"));
+				System.out.println("데이터기준일자(referenceDate) : " 			+ tempJson.get("referenceDate"));
+				System.out.println("제공기관코드(instt_code) : " 				+ tempJson.get("insttCode"));//_는 첫글자 대문자로
+				System.out.println("제공기관기관명(instt_nm) : " 				+ tempJson.get("insttNm"));
 
 				System.out.println("-------------------------");
         	}

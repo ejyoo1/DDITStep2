@@ -23,8 +23,8 @@ import javax.servlet.http.HttpSession;
  *  boolean값 : true인 경우 	=> 세션객체가 존재하지 않으면 세션을 새로 생성함. 세션이 존재하면 기존 세션을 줌(항상 세션이 존재하는 상태임)
  *  		   false인 경우 	=> 세션객체가 존재하지 않으면 null 리턴함. 세션이 존재하면 기존 세션을 줌(세션이 존재하는지 존재하지 않는지 확인하고자 할 때 사용 )==> 로그인 처리에 사용하면 됨.
  *  
- * - 세션 삭제 처리 방법
- * 1. invalidate() 메서드 호출
+ * - 세션 삭제 처리 방법(로그아웃)
+ * 1. invalidate() 메서드 호출 (당장 지우기)
  * 2. setMaxInactiveInterval(int interval) 메서드 호출
  *    => 일정시간(초)동안 요청이 없으면 세션객체 삭제됨.
  * 3. web.xml 에 <session-config> 설정하기 (분 단위)
@@ -85,7 +85,6 @@ public class T06_ServletSessionTest extends HttpServlet{
 			    + "<tr><td>방문횟수</td><td>"
 			    + visitCount + "</td></tr></table>"
 			    + "</body></html>");
-		session.invalidate();//세션 삭제
 	}
 	
 	@Override

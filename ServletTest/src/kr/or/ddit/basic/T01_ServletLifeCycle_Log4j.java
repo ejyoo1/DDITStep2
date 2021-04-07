@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sun.istack.internal.logging.Logger;
-
 /**
  * 서블릿의 라이프사이클을 확인하기 위한 예제
  * (서블릿이란? 웹 애플리케이션 개발 시 스펙)
@@ -24,9 +22,8 @@ import com.sun.istack.internal.logging.Logger;
  * WEB-INF : lib 는 외부에서 참조해서 사용하는 라이브러리를 이 폴더에 넣어야 인식한다.
  * WEB-INF : classes(클래스 Path가 모여있는 곳)
  */
-public class T01_ServletLifeCycle extends HttpServlet { //http 프로토콜을 사용하는 클래스
+public class T01_ServletLifeCycle_Log4j extends HttpServlet { //http 프로토콜을 사용하는 클래스
 	
-	static Logger logger = Logger.getLogger(T01_ServletLifeCycle.class);
 	@Override
 	public void init() throws ServletException{
 		//초기화 코드 작성
