@@ -20,7 +20,7 @@ public class T10_ServletSessionListenerTest extends HttpServlet{
 		MySessionBindingListener bindinglistener
 			= new MySessionBindingListener();
 		
-		req.getSession().setAttribute("obj", bindinglistener); // obj에만 리스너 관리하고 싶을때만 
+		req.getSession().setAttribute("obj", bindinglistener); // 관리하고싶은 객체에만 리스너를 적용하고 싶을때 사용
 		req.getSession().removeAttribute("obj");
 	}
 	

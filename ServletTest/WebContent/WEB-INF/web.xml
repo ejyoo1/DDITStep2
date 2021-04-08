@@ -96,6 +96,46 @@
   	<url-pattern>/T10_ServletSessionListenerTest</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>T11_ImageServletTest</servlet-name>
+  	<servlet-class>kr.or.ddit.basic.T11_ImageServletTest</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>T11_ImageServletTest</servlet-name>
+  	<url-pattern>/T11_ImageServletTest</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>T12_DownloadServletTest</servlet-name>
+  	<servlet-class>kr.or.ddit.basic.T12_DownloadServletTest</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>T12_DownloadServletTest</servlet-name>
+  	<url-pattern>/T12_DownloadServletTest</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>UploadServlet1</servlet-name>
+  	<servlet-class>kr.or.ddit.basic.UploadServlet1</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>UploadServlet1</servlet-name>
+  	<url-pattern>/upload1</url-pattern><!-- html form의 action과 동일하게 설정 -->
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>UploadServlet2</servlet-name>
+  	<servlet-class>kr.or.ddit.basic.UploadServlet2</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>UploadServlet2</servlet-name>
+  	<url-pattern>/upload2</url-pattern><!-- html form의 action과 동일하게 설정 -->
+  </servlet-mapping>
+  
   
   
   <!-- 리스너 등록 -->
