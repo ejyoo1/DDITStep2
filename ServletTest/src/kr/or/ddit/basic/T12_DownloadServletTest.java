@@ -35,6 +35,7 @@ public class T12_DownloadServletTest extends HttpServlet {
 		 
 		 1. response header 에서 사용되는 경우... ex) 파일다운로드
 		 	Content-Disposition: inline (default) ==> 내용 다운받아보겠다.(웹에 띄어주는것==처리가 완료되면 Network에 보임)
+		 	  ==> 웹이 표현할 수 있는 마임타입이 아니면 어짜피 다운로드됨.
 		 	// 서블릿 이름으로 파일 다운로드
 		 	Content-Disposition: attatchment
 		 	// filename.jpg 이름으로 파일 다운로드 
