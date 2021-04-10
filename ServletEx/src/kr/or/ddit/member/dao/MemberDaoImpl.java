@@ -7,103 +7,106 @@ import org.apache.log4j.Logger;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 
-import kr.or.ddit.member.MemberMain;
 import kr.or.ddit.member.vo.MemberVO;
 
 public class MemberDaoImpl implements IMemberDao {
 	
+	/**
+	 * 로그 객체 생성
+	 */
+//	private static final Logger PARAM_LOGGER = Logger.getLogger("log4jexam.sql.Parameter"); // 파라미터 관련 로거
+	private static final Logger RESULT_LOGGER = Logger.getLogger(MemberDaoImpl.class); // 최종 결과에 대한 로거
 	
-//	private static MemberDaoImpl memDao; 
-	private static IMemberDao memDao;//인터페이스로 사용함.(나중에 유지보수 쉽게하기 위해서)
+	/**
+	 * 필요한 객체 생성
+	 */
+	private static IMemberDao memDao; // [private static MemberDaoImpl memDao;] 대신 인터페이스로 사용함.[유지보수 용이]
+	private MemberDaoImpl() {}
 	
-	private MemberDaoImpl() {
-
-	}
-	
-	public static IMemberDao getInstance() {
-		if( memDao == null) {
-			memDao = new MemberDaoImpl();
-		}
-		
+	/**
+	 * 싱글톤 패턴
+	 * @return IMemberDao 리턴
+	 */
+	public static IMemberDao getInstance() { 
+		if( memDao == null) { memDao = new MemberDaoImpl(); }
 		return memDao;
 	}
 	
-//	파라미터 관련 로거 생성
-	private static final Logger PARAM_LOGGER = Logger.getLogger("log4jexam.sql.Parameter");
-//	클래스에 대한 로거 생성
-//	최종 결과에 대한 로그
-	private static final Logger RESULT_LOGGER = Logger.getLogger(MemberDaoImpl.class);
-
+	/**
+	 * 멤버 등록 관련 DAO - DB 호출 및 결과 Service 로 반환
+	 */
 	@Override
-	public int insertMember(SqlMapClient smc, MemberVO mv) throws SQLException {
+	public int insertMember(SqlMapClient smc, MemberVO mv) throws SQLException { 
+//		PARAM_LOGGER.debug("★★Service 파라미터★★ : "
+//				+ "[" 	+ mv.getMemId() + ", "
+//				+ mv.getMemName() + ", "
+//				+ mv.getMemTel() + ", "
+//				+ mv.getMemAddr() + "]"
+//				); // smc 찍기 가능 => 주소 값 반환됨.
+		
 		int cnt = 0;
-		
-//		파라미터를 찍기위한 로거 생성
-		PARAM_LOGGER.debug("파라미터 : ("
-						+ "[" 	+ smc + "]"
-						+ "[" 	+ mv.getMemId() + ", "
-								+ mv.getMemName() + ", "
-								+ mv.getMemTel() + ", "
-								+ mv.getMemAddr() + "]"
-					);
-		
 		Object obj = smc.insert("member.insertMember", mv);
-		
-		if(obj == null) {
-//			데이터 삽입 성공
-			cnt = 1;
-		}
-		
-		RESULT_LOGGER.warn("결과 : " + cnt);
+		if(obj == null) { cnt = 1;	} // 데이터 삽입 성공
+		RESULT_LOGGER.debug("★★DAO 결과★★ [1:삽입성공,0:삽입실패] : " + cnt);
 		
 		return cnt;
 	}
 
+	/**
+	 * DB에 값이 존재하는지 여부를 판단하기 위한 DAO - DB 호출 및 결과 Service 로 반환
+	 */
 	@Override
-	public boolean checkMember(SqlMapClient smc, String memId) throws SQLException {
+	public boolean checkMember(SqlMapClient smc, String memId) throws SQLException { 
 		boolean chk = false;
-		
 		int cnt = (int) smc.queryForObject("member.getMember", memId);
+		if(cnt > 0) { chk = true; } // 중복값이 있음.
+		RESULT_LOGGER.debug("★★DAO 결과★★ [true:DB에 값이 존재함,false:DB에 값이 없음] : " + chk);
 		
-		if(cnt > 0) {
-//			중복이면 true;
-			chk = true;
-		}
 		return chk;
 	}
 
+	/**
+	 * 전체 멤버 목록을 가져오는 DAO - DB 호출 및 결과 Service 로 반환
+	 */
 	@Override
 	public List<MemberVO> getAllMemberList(SqlMapClient smc) throws SQLException {
 		List<MemberVO> memList = smc.queryForList("member.getMemberAll");
+		RESULT_LOGGER.debug("★★DAO 결과★★ [가져온 목록 수] : " + memList.size());
 		
 		return memList;
 	}
 
+	/**
+	 * 멤버를 수정하는 DAO - DB 호출 및 결과 Service 로 반환
+	 */
 	@Override
 	public int updateMember(SqlMapClient smc, MemberVO mv) throws SQLException {
 		int cnt = 0;
-		
 		cnt = smc.update("member.updateMember", mv);
+		RESULT_LOGGER.debug("★★DAO 결과★★ [1:수정성공,0:수정실패] : " + cnt);
 		
 		return cnt;
 	}
 
+	/**
+	 * 멤버를 삭제하는 DAO - DB 호출 및 결과 Service 로 반환
+	 */
 	@Override
 	public int deleteMember(SqlMapClient smc, String memId) throws SQLException {
 		int cnt = 0;
-		
 		cnt = smc.delete("member.deleteMember", memId);
+		RESULT_LOGGER.debug("★★DAO 결과★★ [1:삭제성공,0:삭제실패] : " + cnt);
 		
 		return cnt;
 	}
 	
-	
-	//쿼리작성
-	//사용자 요청에 따라 쿼리가 달리 작성되어야 함. 다이나믹 쿼리
+	/**
+	 * 필터 검색을 위한 DAO [Dynamic Query] - DB 호출 및 결과 Service 로 반환
+	 */
 	@Override
 	public List<MemberVO> getSearchMember(SqlMapClient smc, MemberVO mv) throws SQLException {
-//		결과를 담을 List 정의
 		List<MemberVO> memList = smc.queryForList("member.getSearchMember", mv);
+		RESULT_LOGGER.debug("★★DAO 결과★★ [가져온 목록 수] : " + memList.size());
 		
 		return memList;
 	}

@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import kr.or.ddit.member.service.IMemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.member.vo.MemberVO;
 
 public class InsertMemberServlet extends HttpServlet{
+	private static final Logger RESULT_LOGGER = Logger.getLogger(InsertMemberServlet.class);
 	
 	/**
 	 * 화면을 그려주는 jsp로 이동
@@ -36,6 +39,11 @@ public class InsertMemberServlet extends HttpServlet{
 		String memName = req.getParameter("memName");
 		String memTel = req.getParameter("memTel");
 		String memAddr = req.getParameter("memAddr");
+		RESULT_LOGGER.debug("★★InsertMemberServlet 결과★★ [req.getParameter]: " 
+				+ memId
+				+ "," + memName
+				+ "," + memTel
+				+ "," + memAddr);
 		
 		// 2. 서비스 객체 생성하기
 		IMemberService memberService = MemberServiceImpl.getInstance();
@@ -48,6 +56,8 @@ public class InsertMemberServlet extends HttpServlet{
 		mv.setMemTel(memTel);
 		
 		int cnt = memberService.insertMember(mv);
+		
+		RESULT_LOGGER.debug("★★InsertMemberServlet 결과★★ [1:삽입성공,0:삽입실패]: " + cnt);
 		
 		String msg = "";
 		

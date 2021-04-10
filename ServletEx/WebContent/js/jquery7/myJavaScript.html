@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script src="./myJavaScript.js"></script>
+</head>
+<body>
+	<h3>입력필드 추출</h3>
+	<form>
+		텍스트필드 : <input type="text" name="memberName" ><br>
+		셀렉트박스 : <select id="job" name="job" multiple>
+	              <option value="">직업선택</option>
+	              <option value="학생">학생</option>
+	              <option value="회사원">회사원</option>
+	              <option value="기타">기타</option>
+	            </select><br>
+	    체크박스 : <input type="checkbox" class="chkInfo" name="chkInfo" value="HTML">HTML
+	           <input type="checkbox" class="chkInfo" name="chkInfo" value="CSS" checked="checked">CSS
+	           <input type="checkbox" class="chkInfo" name="chkInfo" value="웹디자인">웹디자인<br> 
+		<input type="submit">
+	</form>
+	<hr>
+	<div>
+	  <h4>출력영역</h4>
+	  텍스트필드 : <span id="spmemberName">값1</span><br>
+	  셀렉트박스 : <span id="spjob">값1</span><br>
+	  체크박스 : <span id="spchkInfo">값1</span><br>
+	</div>
+	<br>
+	<br>
+	<hr>
+	<h3>유효성 검사</h3>
+    주민등록번호 : <input type="text" id="rrNumber">
+  <button type="button" onclick="checkRRN()">확인</button>
+  <br>
+  <br>
+  <hr>
+  <h3>휴대폰 번호 포맷 변경</h3>
+    휴대폰 번호 : <input type="text" id="hpNumber">
+  <button type="button" onclick="format()">확인</button>
+  <div>
+    <h4>출력영역</h4>
+    <span id="spVeri"></span>
+  </div>
+</body>
+<script>
+	var memberName = "";
+	var job = "";
+	var chkInfo = "";
+	
+	var url = decodeURI(location.href); 
+	
+	memberName  = getValue(url, "memberName");
+	job = getSelectValue(url, "job");
+	chkInfo = getSelectValue(url, "chkInfo");
+	
+	$("#spmemberName").text(memberName);
+	$("#spjob").text(job);
+	$("#spchkInfo").text(chkInfo);
+</script>
+
+</html>

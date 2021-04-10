@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import kr.or.ddit.member.dao.MemberDaoImpl;
 import kr.or.ddit.member.service.IMemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.member.vo.MemberVO;
@@ -21,20 +24,18 @@ import kr.or.ddit.member.vo.MemberVO;
  * 컨트롤러 URL 요청 -> 서블릿 시작 -> 필요한 회원정보 위한 서비스 객체 생성 -> 회원 목록 조회 -> jsp 토스 (setAttribute)
  */
 public class SelectMemberAllServlet extends HttpServlet { // list.do
+	private static final Logger RESULT_LOGGER = Logger.getLogger(SelectMemberAllServlet.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		IMemberService memberService = MemberServiceImpl.getInstance(); // 1. 서비스 객체 생성
 		
-		// 1. 서비스 객체 생성
-		IMemberService membetService = MemberServiceImpl.getInstance();
-		
-		// 2. 회원 정보 조회
-		List<MemberVO> memList = membetService.getAllMemberList();
+		List<MemberVO> memList = memberService.getAllMemberList(); // 2. 회원 정보 조회
+		RESULT_LOGGER.debug("★★SelectMemberAllServlet 결과★★ [가져온 목록 수] : " + memList.size());
 		
 		req.setAttribute("memList", memList); // 요청에 memList 저장
 		
-		// 뷰 위치 (/member/list.jsp) 에 req, resp를 전달함.
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/member/list.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/member/list.jsp"); // 작업 전달
 		dispatcher.forward(req, resp); // 뷰 페이지로 전달
 		
 	}
