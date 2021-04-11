@@ -99,7 +99,7 @@ public class ApiExplorer {
 				System.out.println("제공기관코드(instt_code) : " 		+ tempJson.get("insttCode"));//_있는것은 첫글자 대문자
 				System.out.println("제공기관기관명(instt_nm) : " 		+ tempJson.get("insttNm"));//_있는것은 첫글자 대문자
 
-				System.out.println("-------------------------");
+				System.out.println("--------------------------");
         	}
         } else {
         	//실패
