@@ -154,4 +154,17 @@ public class MemberServiceImpl implements IMemberService {
 		}
 		return memList;
 	}
+
+	@Override
+	public MemberVO getMember(String memId) {
+		
+		MemberVO mv = null;
+		
+		try {
+			mv = memDao.getMember(smc, memId);
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+		return mv;
+	}
 }

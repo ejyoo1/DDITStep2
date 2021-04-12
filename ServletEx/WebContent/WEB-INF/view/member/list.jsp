@@ -25,7 +25,7 @@
 <script src="../js/jquery-3.6.0.js"></script>
 <script>
  $(".memberList").click(function(){
-	 alert("클릭");
+	 console.log("클릭");
 	 var myForm = document.createElement("form");
      myForm.action= this.href;// the href of the link
      myForm.method= "POST";
