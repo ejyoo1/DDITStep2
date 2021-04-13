@@ -16,7 +16,7 @@
 		<table>
 			<tr>
 				<td>이름 : </td>
-				<td><input type="text" name="memName" value="<%= memVO.getMemTel() %>"></td>
+				<td><input type="text" name="memName" value="<%= memVO.getMemName() %>"></td>
 			</tr>
 			<tr>
 				<td>전화번호 : </td>

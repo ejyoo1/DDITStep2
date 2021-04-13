@@ -23,6 +23,8 @@ import kr.or.ddit.member.vo.MemberVO;
  * 
  * 컨트롤러 URL 요청 -> 서블릿 시작 -> 필요한 회원정보 위한 서비스 객체 생성 -> 회원 목록 조회 -> jsp 토스 (setAttribute)
  */
+
+//핸들러 구현으로 이 클래스는 사용하지 않음.
 public class SelectMemberAllServlet extends HttpServlet { // list.do
 	private static final Logger RESULT_LOGGER = Logger.getLogger(SelectMemberAllServlet.class);
 	

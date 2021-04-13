@@ -15,6 +15,7 @@ import kr.or.ddit.member.service.IMemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.member.vo.MemberVO;
 
+//핸들러 구현으로 이 클래스는 사용하지 않음.
 public class InsertMemberServlet extends HttpServlet{
 	private static final Logger RESULT_LOGGER = Logger.getLogger(InsertMemberServlet.class);
 	

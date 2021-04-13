@@ -73,8 +73,12 @@ public class UploadServlet3 extends HttpServlet {
 		 */
 		
 		for(String content : part.getHeader("Content-Disposition").split(";")) {
-			return content.substring(content.indexOf("=")+1)
-					.trim().replace("\"", "");//파일이름을 얻어옴
+			
+			if(content.trim().startsWith("filename")) {
+				String result = content.substring(content.indexOf("=")+1)
+					.trim().replace("\"", "");//파일이름을 얻어옴 [ filename = "filename.jpg" ==> filename.jpg ]
+				return result;
+			}
 		}
 		return null;// content-Disposition이 없으면 null
 	}
