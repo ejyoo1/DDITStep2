@@ -39,10 +39,14 @@ public class WebController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		String configFilePath = config.getInitParameter("handler-config"); // ==> handler.properties 경로를 가져옴
 		
+		LOGGER.info("★ configFilePath : " + configFilePath);
+		
 		Properties handlerProp = new Properties();
 		
-		// 설정 파일을 읽어서 대응되는 핸들러 객체를 생성하여 맵에 등록하기
+		// 설정 파일을 읽어서 대응되는 핸들러 객체를 생성하여 맵에 등록하기 시작
 		String configFileRealPath = config.getServletContext().getRealPath(configFilePath);
+		
+		LOGGER.info("★ configFileRealPath : " + config.getServletContext());
 		
 		FileReader fr;
 		
@@ -64,7 +68,7 @@ public class WebController extends HttpServlet {
 				ex.printStackTrace();
 				throw new ServletException();
 			}
-		}
+		} // 설정 파일을 읽어서 대응되는 핸들러 객체를 생성하여 맵에 등록하기 끝
 		
 		Set<Map.Entry<String, CommandHandler>> entrySet = cmmHandlerMap.entrySet();
 		for(Map.Entry<String, CommandHandler> entry : entrySet) {

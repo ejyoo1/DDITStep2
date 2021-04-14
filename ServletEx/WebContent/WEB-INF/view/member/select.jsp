@@ -1,8 +1,12 @@
+<%@page import="kr.or.ddit.member.vo.AtchFileVO"%>
+<%@page import="java.util.List"%>
 <%@page import="kr.or.ddit.member.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); 
+
+	List<AtchFileVO> atchFileList = (List<AtchFileVO>) request.getAttribute("atchFileList"); // 파일이 있는 상태
 	
 	String memAddr = memVO.getMemAddr()
 			.replace(System.lineSeparator(), "<br>"); // tb에다가 작성하였기 때문에 BR태그로 분리
@@ -30,7 +34,22 @@
 		</tr>
 		<tr>
 			<td>주소:</td>
-			<td><%= memVO.getMemAddr() %></td>
+			<td><%= memAddr %></td>
+		</tr>
+		<tr>
+			<td>첨부파일</td>
+			<td>
+				<%if(atchFileList != null){
+					for(AtchFileVO atchFileVO : atchFileList){
+				%>
+				<!-- id와 파일의 순번을 알아야 파일을 가져올 수 있음 (Key 역할)-->
+				<!-- request.getContextPath() : 절대경로 -->
+					<div><a href="<%=request.getContextPath() %>/filedownload.do?fileId=<%=atchFileVO.getAtchFileId()%>&fileSn=<%=atchFileVO.getFileSn()%>"><%=atchFileVO.getOrignlFileNm() %></a></div>
+				<%
+					}
+				}
+				%>
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">

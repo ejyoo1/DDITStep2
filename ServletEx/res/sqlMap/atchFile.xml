@@ -5,14 +5,14 @@
 <sqlMap namespace="atchFile">
 	<resultMap class="kr.or.ddit.member.vo.AtchFileVO" id="atchFileDetailMap">
 		
-		<result property="atchFileId      " column="ATCH_FILE_ID" />
-		<result property="fileSn          " column="FILE_SN" />
-		<result property="fileStreCours   " column="FILE_STRE_COURS" />
-		<result property="streFileNm      " column="STRE_FILE_NM" />
-		<result property="orignlFileNm    " column="ORIGNL_FILE_NM" />
-		<result property="fileExtsn       " column="FILE_EXTSN" />
-		<result property="fileCn          " column="FILE_CN" />
-		<result property="fileSize        " column="FILE_SIZE" />
+		<result property="atchFileId" column="ATCH_FILE_ID" />
+		<result property="fileSn" column="FILE_SN" />
+		<result property="fileStreCours" column="FILE_STRE_COURS" />
+		<result property="streFileNm" column="STRE_FILE_NM" />
+		<result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+		<result property="fileExtsn" column="FILE_EXTSN" />
+		<result property="fileCn" column="FILE_CN" />
+		<result property="fileSize" column="FILE_SIZE" />
 		
 	</resultMap>
 	
@@ -21,7 +21,7 @@
 		where atch_file_id = #atchFileId#
 	</select>
 	
-	<select id="getAtchFileDetail" resultMap="atchFileDetail">
+	<select id="getAtchFileDetail" resultMap="atchFileDetailMap">
 		select * from atch_file_detail
 		where atch_file_id = #atchFileId#
 		and file_sn = #fileSn#
@@ -35,7 +35,7 @@
 		</selectKey>
 		
 		insert into atch_file
-		(atch_file_id
+		(atch_file_id,
 		 creat_dt,
 		 use_at
 		)
@@ -74,6 +74,7 @@
 		   ,#fileSize#
 		)
 	</insert>
+	
 </sqlMap>			
 
 

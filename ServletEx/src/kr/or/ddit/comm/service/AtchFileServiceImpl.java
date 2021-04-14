@@ -39,15 +39,17 @@ public class AtchFileServiceImpl implements IAtchFileService {
 	 */
 	@Override
 	public AtchFileVO saveAtchFile(FileItem item) throws Exception {
-		
 		// 파일 업로드 경로 체크
 		File uploadDir = new File(FileUploadRequestWrapper.UPLOAD_DIRECTORY); // 현재 디렉토리에 업로드
 		if(!uploadDir.exists()) { // uploadDir이 있는지 판단 false 면 경로 생성
 			uploadDir.mkdir();
 		}
 		
+		// 파일 첨부가 없을 때 오류가 발생함. item 이 null
+		long fileSize = 0;
 		String orignFileName = new File(item.getName()).getName(); // 파일명만 추출하기
-		long fileSize = item.getSize(); // 파일 사이즈 가져오기
+		
+		
 		String storeFileName = "";
 		String filePath = "";
 		File storeFile = null;

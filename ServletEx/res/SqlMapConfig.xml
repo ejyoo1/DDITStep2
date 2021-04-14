@@ -49,6 +49,7 @@
 <!-- 실제 처리할 SQL 문은 xml 로 별도 생성 후 <sqlMap resource="경로명/파일명.xml"/> 를 사용하여 연결한다. 
 	xml 분리 예) 마이페이지, Qna, 공지사항 등 (게시판 CRUD 별로 쿼리 분리)-->
 	<sqlMap resource="sqlMap/member.xml" />
+	<sqlMap resource="sqlMap/atchFile.xml" />
 </sqlMapConfig>
 
 

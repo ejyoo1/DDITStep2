@@ -28,15 +28,16 @@
  <!-- ##안에 property이름을 명시하면 idatis가 memId를 가지고 유추해서 getter에 접근한다. getMemId() -->
  	<insert id="insertMember" parameterClass="memVO">
  		 insert into mymember  
- 		 (mem_id, mem_name, mem_tel, mem_addr) 
- 		 values (#memId#,#memName#,#memTel#,#memAddr#) 
+ 		 (mem_id, mem_name, mem_tel, mem_addr, atch_file_id) 
+ 		 values (#memId#,#memName#,#memTel#,#memAddr#, #atchFileId#) 
  	</insert>
  	
  	<update id="updateMember" parameterClass="memVO">
  		 update mymember 
  		 set mem_name = #memName#
  		 , mem_tel = #memTel#
- 		 , mem_addr = #memAddr# 
+ 		 , mem_addr = #memAddr#
+ 		 , atch_file_id = #atchFileId#
  		 where mem_id = #memId#
  	</update>
  	
@@ -78,6 +79,7 @@
  		<result property="memName" column="mem_name"/>
  		<result property="memTel" column="mem_tel"/>
  		<result property="memAddr" column="mem_addr"/>
+ 		<result property="atchFileId" column="atch_file_id"/>
  	</resultMap>
  	<!-- 아래 코드에서 resultMap 속성을 사용하여 resultMap에 설정한 매핑정보를 연결한다. -->
  	<select id="getMemberAll" resultMap="memMap">

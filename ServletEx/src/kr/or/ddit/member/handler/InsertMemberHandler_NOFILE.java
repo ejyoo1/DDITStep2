@@ -5,18 +5,12 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-
 import kr.or.ddit.comm.handler.CommandHandler;
-import kr.or.ddit.comm.service.AtchFileServiceImpl;
-import kr.or.ddit.comm.service.IAtchFileService;
 import kr.or.ddit.member.service.IMemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
-import kr.or.ddit.member.vo.AtchFileVO;
 import kr.or.ddit.member.vo.MemberVO;
-import kr.or.ddit.util.FileUploadRequestWrapper;
 
-public class InsertMemberHandler implements CommandHandler {
+public class InsertMemberHandler_NOFILE implements CommandHandler {
 	private static final String VIEW_PAGE = "/WEB-INF/view/member/insertForm.jsp";
 
 	@Override
@@ -36,13 +30,6 @@ public class InsertMemberHandler implements CommandHandler {
 			return VIEW_PAGE;
 		}else { //POST 방식인 경우 isRedirect를 한다 
 			
-			FileItem item = ((FileUploadRequestWrapper)req).getFileItem("atchFile"); // 맵 데이터 가져옴
-			
-			AtchFileVO atchFileVO = new AtchFileVO();
-			
-			IAtchFileService fileService = AtchFileServiceImpl.getInstance();
-			atchFileVO = fileService.saveAtchFile(item); // 가져온 파일 데이터 가져와서 파일 저장 서비스 실행하여 파일을 가져옴.
-			
 			// 1. 요청파라티터 정보 가져오기
 			String memId = req.getParameter("memId");
 			String memName = req.getParameter("memName");
@@ -59,7 +46,6 @@ public class InsertMemberHandler implements CommandHandler {
 			mv.setMemName(memName);
 			mv.setMemAddr(memAddr);
 			mv.setMemTel(memTel);
-			mv.setAtchFileId(atchFileVO.getAtchFileId());
 			
 			int cnt = memberService.insertMember(mv);
 			
