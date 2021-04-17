@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.fileupload.FileItem;
 
-import kr.or.ddit.member.vo.AtchFileVO;
+import kr.or.ddit.board.vo.AtchFileVO;
 
 
 /**

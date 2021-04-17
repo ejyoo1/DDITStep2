@@ -54,7 +54,7 @@ public class InsertBoardHandler implements CommandHandler {
 					MemberServiceImpl.getInstance();
 			
 			// 3. 회원정보 등록하기
-			MemberVO mv = new MemberVO();
+			BoardVO mv = new MemberVO();
 			mv.setMemId(memId);
 			mv.setMemName(memName);
 			mv.setMemAddr(memAddr);

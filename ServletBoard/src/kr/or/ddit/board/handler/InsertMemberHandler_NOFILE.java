@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.or.ddit.comm.handler.CommandHandler;
-import kr.or.ddit.member.service.IMemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
-import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.board.service.IMemberService;
+import kr.or.ddit.board.service.MemberServiceImpl;
+import kr.or.ddit.board.vo.BoardVO;
 
 public class InsertMemberHandler_NOFILE implements CommandHandler {
 	private static final String VIEW_PAGE = "/WEB-INF/view/member/insertForm.jsp";

@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 
-import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.board.vo.BoardVO;
 
 public class MemberDaoImpl implements IMemberDao {
 	

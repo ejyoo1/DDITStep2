@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.or.ddit.comm.handler.CommandHandler;
-import kr.or.ddit.member.service.IMemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
+import kr.or.ddit.board.service.IMemberService;
+import kr.or.ddit.board.service.MemberServiceImpl;
 
 public class DeleteMemberHandler implements CommandHandler {
 
