@@ -9,7 +9,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.board.vo.BoardVO;
 
-public class MemberDaoImpl implements IMemberDao {
+public class BoardDaoImpl implements IMemberDao {
 	
 	/**
 	 * 로그 객체 생성

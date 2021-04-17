@@ -12,7 +12,7 @@ import kr.or.ddit.board.vo.BoardVO;
  * @author 유은지
  *
  */
-public interface IMemberDao {
+public interface IBoardDao {
 	
 	/**
 	 * MemberVO 객체에 담겨진 자료를 DB에 insert하는 메서드
@@ -21,7 +21,7 @@ public interface IMemberDao {
 	 * @return DB작업이 성공하면 1이상의 값이 반환되고, 실패하면 0이 반환된다.
 	 * @throws SQLException JDBC관련 예외객체 발생
 	 */
-	public int insertMember(SqlMapClient smc, BoardVO mv) throws SQLException;
+	public int insertBoard(SqlMapClient smc, BoardVO mv) throws SQLException;
 	
 	/**
 	 * 주어진 회원 ID가 존재하는지 여부를 알아내는 메서드
