@@ -19,7 +19,7 @@ public class BoardDaoImpl implements IBoardDao {
 	/**
 	 * 필요한 객체 생성
 	 */
-	private static IBoardDao memDao; // [private static MemberDaoImpl memDao;] 대신 인터페이스로 사용함.[유지보수 용이]
+	private static IBoardDao boardDao; // [private static MemberDaoImpl memDao;] 대신 인터페이스로 사용함.[유지보수 용이]
 	private BoardDaoImpl() {}
 	
 	/**
@@ -27,24 +27,18 @@ public class BoardDaoImpl implements IBoardDao {
 	 * @return IMemberDao 리턴
 	 */
 	public static IBoardDao getInstance() { 
-		if( memDao == null) { memDao = new BoardDaoImpl(); }
-		return memDao;
+		if( boardDao == null) { boardDao = new BoardDaoImpl(); }
+		return boardDao;
 	}
 	
 	/**
 	 * 멤버 등록 관련 DAO - DB 호출 및 결과 Service 로 반환
 	 */
 	@Override
-	public int insertMember(SqlMapClient smc, MemberVO mv) throws SQLException { 
-//		PARAM_LOGGER.debug("★★Service 파라미터★★ : "
-//				+ "[" 	+ mv.getMemId() + ", "
-//				+ mv.getMemName() + ", "
-//				+ mv.getMemTel() + ", "
-//				+ mv.getMemAddr() + "]"
-//				); // smc 찍기 가능 => 주소 값 반환됨.
+	public int insertBoard(SqlMapClient smc, BoardVO bv) throws SQLException {
 		
 		int cnt = 0;
-		Object obj = smc.insert("member.insertMember", mv);
+		Object obj = smc.insert("board.insertBoard", bv);
 		if(obj == null) { cnt = 1;	} // 데이터 삽입 성공
 		RESULT_LOGGER.debug("★★DAO 결과★★ [1:삽입성공,0:삽입실패] : " + cnt);
 		
@@ -55,9 +49,9 @@ public class BoardDaoImpl implements IBoardDao {
 	 * DB에 값이 존재하는지 여부를 판단하기 위한 DAO - DB 호출 및 결과 Service 로 반환
 	 */
 	@Override
-	public boolean checkMember(SqlMapClient smc, String memId) throws SQLException { 
+	public boolean checkBoard(SqlMapClient smc, String boardId) throws SQLException { 
 		boolean chk = false;
-		int cnt = (int) smc.queryForObject("member.getMember", memId);
+		int cnt = (int) smc.queryForObject("board.getBoard", boardId);
 		if(cnt > 0) { chk = true; } // 중복값이 있음.
 		RESULT_LOGGER.debug("★★DAO 결과★★ [true:DB에 값이 존재함,false:DB에 값이 없음] : " + chk);
 		
@@ -68,20 +62,20 @@ public class BoardDaoImpl implements IBoardDao {
 	 * 전체 멤버 목록을 가져오는 DAO - DB 호출 및 결과 Service 로 반환
 	 */
 	@Override
-	public List<MemberVO> getAllMemberList(SqlMapClient smc) throws SQLException {
-		List<MemberVO> memList = smc.queryForList("member.getMemberAll");
-		RESULT_LOGGER.debug("★★DAO 결과★★ [가져온 목록 수] : " + memList.size());
+	public List<BoardVO> getAllBoardList(SqlMapClient smc) throws SQLException {
+		List<BoardVO> boardList = smc.queryForList("board.getBoardAll");
+		RESULT_LOGGER.debug("★★DAO 결과★★ [가져온 목록 수] : " + boardList.size());
 		
-		return memList;
+		return boardList;
 	}
 
 	/**
 	 * 멤버를 수정하는 DAO - DB 호출 및 결과 Service 로 반환
 	 */
 	@Override
-	public int updateMember(SqlMapClient smc, MemberVO mv) throws SQLException {
+	public int updateBoard(SqlMapClient smc, BoardVO bv) throws SQLException {
 		int cnt = 0;
-		cnt = smc.update("member.updateMember", mv);
+		cnt = smc.update("board.updateBoard", bv);
 		RESULT_LOGGER.debug("★★DAO 결과★★ [1:수정성공,0:수정실패] : " + cnt);
 		
 		return cnt;
@@ -91,9 +85,9 @@ public class BoardDaoImpl implements IBoardDao {
 	 * 멤버를 삭제하는 DAO - DB 호출 및 결과 Service 로 반환
 	 */
 	@Override
-	public int deleteMember(SqlMapClient smc, String memId) throws SQLException {
+	public int deleteBoard(SqlMapClient smc, String boardId) throws SQLException {
 		int cnt = 0;
-		cnt = smc.delete("member.deleteMember", memId);
+		cnt = smc.delete("board.deleteBoard", boardId);
 		RESULT_LOGGER.debug("★★DAO 결과★★ [1:삭제성공,0:삭제실패] : " + cnt);
 		
 		return cnt;
@@ -103,18 +97,18 @@ public class BoardDaoImpl implements IBoardDao {
 	 * 필터 검색을 위한 DAO [Dynamic Query] - DB 호출 및 결과 Service 로 반환
 	 */
 	@Override
-	public List<MemberVO> getSearchMember(SqlMapClient smc, MemberVO mv) throws SQLException {
-		List<MemberVO> memList = smc.queryForList("member.getSearchMember", mv);
-		RESULT_LOGGER.debug("★★DAO 결과★★ [가져온 목록 수] : " + memList.size());
+	public List<BoardVO> getSearchBoard(SqlMapClient smc, BoardVO bv) throws SQLException {
+		List<BoardVO> boardList = smc.queryForList("board.getSearchBoard", bv);
+		RESULT_LOGGER.debug("★★DAO 결과★★ [가져온 목록 수] : " + boardList.size());
 		
-		return memList;
+		return boardList;
 	}
 
 	@Override
-	public MemberVO getMember(SqlMapClient smc, String memId) throws SQLException {
-		MemberVO mv = (MemberVO) smc.queryForObject("member.getMemberInfo", memId);
+	public BoardVO getBoard(SqlMapClient smc, String boardId) throws SQLException {
+		BoardVO bv = (BoardVO) smc.queryForObject("board.getBoardInfo", boardId);
 	
-		return mv;
+		return bv;
 	}
 	
 }
