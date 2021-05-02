@@ -3,7 +3,7 @@
 			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="atchFile">
-	<resultMap class="kr.or.ddit.member.vo.AtchFileVO" id="atchFileDetailMap">
+	<resultMap class="kr.or.ddit.board.vo.AtchFileVO" id="atchFileDetailMap">
 		
 		<result property="atchFileId" column="ATCH_FILE_ID" />
 		<result property="fileSn" column="FILE_SN" />

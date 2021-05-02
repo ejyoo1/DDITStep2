@@ -7,21 +7,8 @@
 	ibatis 쿼리 실행 파일
 -->
 
-<sqlMap namespace="board"> <!-- SqlMapConfig.xml Setting 부분 연관 ==>  useStatementNamespaces="true" -->
-<!-- 
-	<select> ~ </select>
-	<insert> ~ </insert>
-	<update> ~ </update>
-	<delete> ~ </delete>
-	
-	1) id속성 : 해당 태그를 호출 시 <sqlMap> root 태그 namespace와 연결하여 사용 (ex. board.insertBoard)
-	2) parameterClass속성 : sql문 실행 시 사용할 데이터의 객체 지정 (VO 패키지 경로, 자료형 [String, int] 이름 주로 사용) - typeAlias로 지정한 alias 명을 사용할 수 있다.
-	3) resultClass 속성 : select문을 실행한 결과를 담을 객체를 지정한다.
-	(보통VO 클래스나 자바의 자료형이름을 사용한다.)
- -->
- <!-- insertid 지정 , 객체 파라미터의 타입 지정. 이제 객체를 참고하도록 함. (getter를 추출해서 뽑아낼 수 있음.)-->
- <!-- ##안에 property이름을 명시하면 idatis가 memId를 가지고 유추해서 getter에 접근한다. getMemId() -->
- 	<insert id="insertMember" parameterClass="memVO">
+<sqlMap namespace="board"> 
+ 	<insert id="insertBoard" parameterClass="memVO">
  		 insert into mymember  
  		 (mem_id, mem_name, mem_tel, mem_addr, atch_file_id) 
  		 values (#memId#,#memName#,#memTel#,#memAddr#, #atchFileId#) 
