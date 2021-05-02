@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<!-- 
+	유은지 : SQL 관련 설정 파일 
+ -->
+
+<sqlMapConfig>
+	<properties resource="SqlMapConfig.properties" /> <!-- DB 연결 정보 담은 SqlMapConfig.properties 연결 -->
+	
+	<!-- ibatis 처리 위한 환경설정 useStatementNamespaces="true" 로 할 것!-->
+	<settings cacheModelsEnabled="true" enhancementEnabled="true" 
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="true" />
+	
+	<!-- 패키지 경로 길 경우 Alias 지정 -->
+ 	<typeAlias alias="boardVO" type="kr.or.ddit.board.vo.BoardVO"/> 
+
+	<!-- <properties resource="SqlMapConfig.properties" /> 매핑하여 값 추가 -->
+	<!-- <property name="JDBC.Driver" value="oracle.jdbc.driver.OracleDriver" /> -->
+	<transactionManager type="JDBC">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver" value="${driver}" /> 
+			<property name="JDBC.ConnectionURL" value="${url}" />
+			<property name="JDBC.Username" value="${username}" />
+			<property name="JDBC.Password" value="${password}" />
+			<property name="Pool.MaximumActiveConnections" value="1"/> <!-- 커넥션 개수 1개 설정 -->
+			<property name="Pool.MaximumIdleConnections" value="1"/>
+		</dataSource>
+	</transactionManager>
+
+<!-- ★중요 (쿼리 XML 연결부분)★ -->
+<!-- 실제 처리할 SQL 문은 xml 로 별도 생성 후 <sqlMap resource="경로명/파일명.xml"/> 와 같이 연결 
+	xml 분리 예) 마이페이지, Qna, 공지사항 등 (게시판 CRUD 별로 쿼리 분리)-->
+	<sqlMap resource="sqlMap/board.xml" />
+	<sqlMap resource="sqlMap/atchFile.xml" />
+</sqlMapConfig>
+
+
+
+
+
+
