@@ -1,54 +1,48 @@
 package kr.or.ddit.board.vo;
 
 public class BoardVO {
-	private String BOARD_NO;
-	private String BOARD_TITLE;
-	private String BOARD_WRITER;
-	private String BOARD_DATE;
-	private String BOARD_CONTENT;
+	private String boardNo;//BOARD_NO;
+	private String boardTitle;//BOARD_TITLE;
+	private String boardWriter;//BOARD_WRITER;
+	private String boardDate;//BOARD_DATE;
+	private String boardContent;//BOARD_CONTENT;
 	private long atchFileId = -1;
 	
-	public String getBOARD_NO() {
-		return BOARD_NO;
+	public String getBoardNo() {
+		return boardNo;
 	}
-	public void setBOARD_NO(String bOARD_NO) {
-		BOARD_NO = bOARD_NO;
+	public void setBoardNo(String boardNo) {
+		this.boardNo = boardNo;
 	}
-	
-	public String getBOARD_TITLE() {
-		return BOARD_TITLE;
+	public String getBoardTitle() {
+		return boardTitle;
 	}
-	public void setBOARD_TITLE(String bOARD_TITLE) {
-		BOARD_TITLE = bOARD_TITLE;
+	public void setBoardTitle(String boardTitle) {
+		this.boardTitle = boardTitle;
 	}
-	
-	public String getBOARD_WRITER() {
-		return BOARD_WRITER;
+	public String getBoardWriter() {
+		return boardWriter;
 	}
-	public void setBOARD_WRITER(String bOARD_WRITER) {
-		BOARD_WRITER = bOARD_WRITER;
+	public void setBoardWriter(String boardWriter) {
+		this.boardWriter = boardWriter;
 	}
-	
-	public String getBOARD_DATE() {
-		return BOARD_DATE;
+	public String getBoardDate() {
+		return boardDate;
 	}
-	public void setBOARD_DATE(String bOARD_DATE) {
-		BOARD_DATE = bOARD_DATE;
+	public void setBoardDate(String boardDate) {
+		this.boardDate = boardDate;
 	}
-	
-	public String getBOARD_CONTENT() {
-		return BOARD_CONTENT;
+	public String getBoardContent() {
+		return boardContent;
 	}
-	public void setBOARD_CONTENT(String bOARD_CONTENT) {
-		BOARD_CONTENT = bOARD_CONTENT;
+	public void setBoardContent(String boardContent) {
+		this.boardContent = boardContent;
 	}
-	
 	public long getAtchFileId() {
 		return atchFileId;
 	}
 	public void setAtchFileId(long atchFileId) {
 		this.atchFileId = atchFileId;
 	}
-	
 	
 }
