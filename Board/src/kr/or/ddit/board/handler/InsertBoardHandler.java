@@ -7,13 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 
+import kr.or.ddit.board.service.BoardServiceImpl;
+import kr.or.ddit.board.service.IBoardService;
+import kr.or.ddit.board.vo.AtchFileVO;
+import kr.or.ddit.board.vo.BoardVO;
 import kr.or.ddit.comm.handler.CommandHandler;
 import kr.or.ddit.comm.service.AtchFileServiceImpl;
 import kr.or.ddit.comm.service.IAtchFileService;
-import kr.or.ddit.board.service.IMemberService;
-import kr.or.ddit.board.service.MemberServiceImpl;
-import kr.or.ddit.board.vo.AtchFileVO;
-import kr.or.ddit.board.vo.BoardVO;
 import kr.or.ddit.util.FileUploadRequestWrapper;
 
 public class InsertBoardHandler implements CommandHandler {
@@ -43,25 +43,25 @@ public class InsertBoardHandler implements CommandHandler {
 			IAtchFileService fileService = AtchFileServiceImpl.getInstance();
 			atchFileVO = fileService.saveAtchFile(item); // 가져온 파일 데이터 가져와서 파일 저장 서비스 실행하여 파일을 가져옴.
 			
-			// 1. 요청파라티터 정보 가져오기
-			String memId = req.getParameter("memId");
-			String memName = req.getParameter("memName");
-			String memTel = req.getParameter("memTel");
-			String memAddr = req.getParameter("memAddr");
+			String boardNo = req.getParameter("boardNo");
+			String boardTitle = req.getParameter("boardTitle");
+			String boardWriter = req.getParameter("boardWriter");
+			String boardDate = req.getParameter("boardDate");
+			String boardContent = req.getParameter("boardContent");
 			
-			// 2. 서비스 객체 생성하기
-			IMemberService memberService = 
-					MemberServiceImpl.getInstance();
+			IBoardService boardService = 
+					BoardServiceImpl.getInstance();
 			
 			// 3. 회원정보 등록하기
-			BoardVO mv = new MemberVO();
-			mv.setMemId(memId);
-			mv.setMemName(memName);
-			mv.setMemAddr(memAddr);
-			mv.setMemTel(memTel);
-			mv.setAtchFileId(atchFileVO.getAtchFileId());
+			BoardVO bv = new BoardVO();
+			bv.setBoardNo(boardNo);
+			bv.setBoardTitle(boardTitle);
+			bv.setBoardWriter(boardWriter);
+			bv.setBoardDate(boardDate);
+			bv.setBoardContent(boardContent);
+			bv.setAtchFileId(atchFileVO.getAtchFileId());
 			
-			int cnt = memberService.insertMember(mv);
+			int cnt = boardService.insertBoard(bv);
 			
 			String msg = "";
 			
@@ -73,7 +73,7 @@ public class InsertBoardHandler implements CommandHandler {
 			
 			// 4. 목록 조회화면으로 이동
 			String redirectUrl = req.getContextPath() +
-					"/member/list.do?msg=" 
+					"/board/list.do?msg=" 
 					+ URLEncoder.encode(msg, "UTF-8");
 		
 			return redirectUrl;

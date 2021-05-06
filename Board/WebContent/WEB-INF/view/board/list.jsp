@@ -21,7 +21,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title></title>
-<script src="../js/jquery-3.6.0.js"></script>
+ <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+ <!-- js -->
+	<script src="../js/jquery-3.6.0.js"></script>
 <script>
  $(".boardList").click(function(){
 	 console.log("클릭");
@@ -32,18 +36,42 @@
      return false; // cancel the actual link
  });
 </script>
+<style>
+	.textCenter {
+		text-align: center;
+	}
+	.textleft {
+		text-align: left;
+	}
+	.btnArea {
+		margin-right: 10px;
+	}
+</style>
 </head>
 <body>
-	<h3>전체 자료 출력</h3>
-	<table border="1">
-		<tr>
-			<td>#</td>
-			<td>게시글 제목</td>
-			<td>게시글 내용</td>
-			<td>게시글 작성일</td>
-			<td>게시글 작성자</td>
-			<td>파일키값</td>
-		</tr>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between">
+	<a class="navbar-brand" href="list.do">유은지 게시판</a>
+	<form action="search.do" method="post" class="form-inline">
+    	<input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+    	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  	</form>
+</nav>
+
+<div class="container">
+	<div class="col-md-12">
+		<h1> &nbsp; </h1>
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col" class="textCenter">#</td>
+					<th scope="col" class="textCenter">게시글 제목</td>
+					<th scope="col" class="textCenter">게시글 내용</td>
+					<th scope="col" class="textCenter">게시글 작성일</td>
+					<th scope="col" class="textCenter">게시글 작성자</td>
+					<th scope="col" class="textCenter">첨부파일 번호</td>
+				</tr>
+			</thead>
+			<tbody>
 		
 	<%
 		int boardSize = boardList.size();
@@ -51,29 +79,33 @@
 		if(boardSize > 0){
 			for(int i = 0; i < boardSize; i++){
 	%>		
-		<tr>
-			<td><%=boardList.get(i).getBoardNo() %></td>
-			<td><a href="select.do?boardNo=<%=boardList.get(i).getBoardNo()%>" class="boardList">
-				<%=boardList.get(i).getBoardTitle() %></a></td>
-			<td><%=boardList.get(i).getBoardContent() %></td>
-			<td><%=boardList.get(i).getBoardDate() %></td>
-			<td><%=boardList.get(i).getBoardWriter() %></td>
-			<td><%=boardList.get(i).getAtchFileId() %></td>
-		</tr>
+				<tr>
+					<td scope="row" class="textCenter"><%=boardList.get(i).getBoardNo() %></td>
+					<td scope="row"><a href="select.do?boardNo=<%=boardList.get(i).getBoardNo()%>" class="boardList">
+						<%=boardList.get(i).getBoardTitle() %></a></td>
+					<td scope="row"><%=boardList.get(i).getBoardContent() %></td>
+					<td scope="row" class="textCenter"><%=boardList.get(i).getBoardDate() %></td>
+					<td scope="row" class="textCenter"><%=boardList.get(i).getBoardWriter() %></td>
+					<td scope="row" class="textCenter"><%=boardList.get(i).getAtchFileId() %></td>
+				</tr>
 	<%
 			}
 		}else{
 	%>
-		<tr>
-			<td colspan="5">게시글이 없습니다.</td>
-		</tr>
+				<tr>
+					<td colspan="6">게시글이 없습니다.</td>
+				</tr>
 	<%
 		}
 	%>
-	<tr align="center">
-		<td colspan="5"><a href="insert.do">[게시글 등록]</a></td>
-	</tr>
-	</table>
+				<tr align="center">
+					<td colspan="6"><a class="btn btn-dark float-sm-right" href="insert.do">게시글 등록</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
 	
 	<%
 		if(msg.equals("성공")){ // 성공메시지가 전달되면...
@@ -84,6 +116,7 @@
 	<% 		
 		}
 	%>
-
+	
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
